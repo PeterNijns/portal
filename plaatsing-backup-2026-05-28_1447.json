@@ -1,0 +1,2194 @@
+{
+  "type": "plaatsing-planning-backup",
+  "version": 1,
+  "exported": "2026-05-28T12:47:17.331Z",
+  "data": {
+    "plaats_ploegen": [
+      {
+        "id": "8evqz9zg",
+        "name": "Johnny",
+        "color": "#2563eb"
+      },
+      {
+        "id": "qs6hy6pq",
+        "name": "Steven Ferla",
+        "color": "#059669"
+      },
+      {
+        "id": "0s007v91",
+        "name": "Ploeg Patrick",
+        "color": "#d97706"
+      },
+      {
+        "id": "o2krehzh",
+        "name": "Ploeg Zjelko",
+        "color": "#7c3aed"
+      },
+      {
+        "id": "glq0ve6y",
+        "name": "Ploeg Vladimir",
+        "color": "#db2777"
+      },
+      {
+        "id": "dmb1zsoh",
+        "name": "Yens-Nick",
+        "color": "#0891b2"
+      },
+      {
+        "id": "cvoh33wy",
+        "name": "Marc",
+        "color": "#dc2626"
+      },
+      {
+        "id": "ssja6w15",
+        "name": "Geert",
+        "color": "#65a30d"
+      },
+      {
+        "id": "2qemf02q",
+        "name": "Stef-Kenny",
+        "color": "#2563eb"
+      }
+    ],
+    "plaats_fases": [
+      {
+        "id": "cie13w86",
+        "label": "Plaatsing - Datum besproken met klant",
+        "icon": "🏷️",
+        "color": "#3bf748"
+      },
+      {
+        "id": "59jmxsus",
+        "label": "Plaatsing - Voorplanning",
+        "icon": "🏷️",
+        "color": "#3beaf7"
+      },
+      {
+        "id": "el37b6o4",
+        "label": "Plaatsing - Herplanning wegens tekorten",
+        "icon": "🏷️",
+        "color": "#f73b45"
+      },
+      {
+        "id": "16ezt58q",
+        "label": "Herstelling",
+        "icon": "🗼",
+        "color": "#6d3bf7"
+      }
+    ],
+    "plaats_assign": [
+      {
+        "id": "lj1eky1x",
+        "projectId": "tcnm8bcx",
+        "projectName": "48579-Vise -Dalhem",
+        "ploegId": "8evqz9zg",
+        "dateStr": "2026-05-29",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "mu5jhzin",
+        "projectId": "nuseanj2",
+        "projectName": "49209-Perspective A",
+        "ploegId": "qs6hy6pq",
+        "dateStr": "2026-05-28",
+        "days": 3,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "8j14mx1p",
+        "projectId": "1o6gjlxi",
+        "projectName": "49211-Perspective C",
+        "ploegId": "0s007v91",
+        "dateStr": "2026-05-27",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "xxr2ste8",
+        "projectId": "66rx50nb",
+        "projectName": "50255-ABC en Partners BV",
+        "ploegId": "o2krehzh",
+        "dateStr": "2026-05-28",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "6qgybnzv",
+        "projectId": "qfhtp8y8",
+        "projectName": "50522-Kleynen Immo",
+        "ploegId": "glq0ve6y",
+        "dateStr": "2026-05-28",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "38488kec",
+        "projectId": "p20gr8k0",
+        "projectName": "51448-Miraxvit Fase 2",
+        "ploegId": "dmb1zsoh",
+        "dateStr": "2026-05-28",
+        "days": 2,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "f27woc1u",
+        "projectId": "8zok96g2",
+        "projectName": "53398-Thijbo VOF",
+        "ploegId": "cvoh33wy",
+        "dateStr": "2026-05-28",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "gdd2ppi9",
+        "projectId": "9cca0nyc",
+        "projectName": "53847-Baerts Robrecht",
+        "ploegId": "ssja6w15",
+        "dateStr": "2026-05-28",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "krk2me0g",
+        "projectId": "qe23jxqb",
+        "projectName": "54091-Vulpia Beukenhof",
+        "ploegId": "2qemf02q",
+        "dateStr": "2026-05-28",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "gv7rjfbs",
+        "projectId": "nsh67m5h",
+        "projectName": "53111-Lenaerts-Deferm",
+        "ploegId": "8evqz9zg",
+        "dateStr": "2026-06-05",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "l4826d0y",
+        "projectId": "pu3fspyc",
+        "projectName": "54381-s'Heeren Lieven",
+        "ploegId": "qs6hy6pq",
+        "dateStr": "2026-06-09",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "l7iy7pj6",
+        "projectId": "bzsvcgho",
+        "projectName": "51724-ZZED",
+        "ploegId": "0s007v91",
+        "dateStr": "2026-06-10",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "vbelzk5n",
+        "projectId": "yjzhhswe",
+        "projectName": "53695-ZZED",
+        "ploegId": "o2krehzh",
+        "dateStr": "2026-06-10",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "0p0m0oq1",
+        "projectId": "np4ozfl0",
+        "projectName": "50330-STRABAG - MOBILITEITSHUB",
+        "ploegId": "glq0ve6y",
+        "dateStr": "2026-06-11",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "yxox624f",
+        "projectId": "v37np8la",
+        "projectName": "53466-Eggo Sint Niklaas",
+        "ploegId": "dmb1zsoh",
+        "dateStr": "2026-06-12",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "3yosiyvt",
+        "projectId": "4nide8ug",
+        "projectName": "53478-Seys Michael",
+        "ploegId": "cvoh33wy",
+        "dateStr": "2026-06-12",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "1im88qt5",
+        "projectId": "alde4w3i",
+        "projectName": "52104-Eerkens Tom",
+        "ploegId": "ssja6w15",
+        "dateStr": "2026-06-15",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "agalt4k0",
+        "projectId": "5lcovaao",
+        "projectName": "53778- Pigment BV Dubbele deur",
+        "ploegId": "2qemf02q",
+        "dateStr": "2026-06-15",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "vyb6kbbe",
+        "projectId": "n3umc4wc",
+        "projectName": "53807-Uten Wouter",
+        "ploegId": "8evqz9zg",
+        "dateStr": "2026-06-17",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "ywnwdizf",
+        "projectId": "sz0hlk2a",
+        "projectName": "53000-Martens Appeltans",
+        "ploegId": "qs6hy6pq",
+        "dateStr": "2026-06-22",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "qjazq8hf",
+        "projectId": "kj85ft9i",
+        "projectName": "52286-Open Kerk",
+        "ploegId": "0s007v91",
+        "dateStr": "2026-06-23",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "l8iqnmfv",
+        "projectId": "gnetl9kg",
+        "projectName": "53732-Pigment BV inkom geheel",
+        "ploegId": "o2krehzh",
+        "dateStr": "2026-06-23",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "zu6rj5jn",
+        "projectId": "oz6pi6j8",
+        "projectName": "52492 - Muri Jean Luc",
+        "ploegId": "glq0ve6y",
+        "dateStr": "2026-06-24",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "uwswbgpw",
+        "projectId": "crt4vfgm",
+        "projectName": "51904-SBL Clermont",
+        "ploegId": "dmb1zsoh",
+        "dateStr": "2026-07-01",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "xnald9qp",
+        "projectId": "t1phsz7k",
+        "projectName": "50276 - Vitello Gabriel",
+        "ploegId": "cvoh33wy",
+        "dateStr": "2026-07-02",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      },
+      {
+        "id": "nem0dndt",
+        "projectId": "a2v8hwzh",
+        "projectName": "53735-Wauben",
+        "ploegId": "ssja6w15",
+        "dateStr": "2026-07-07",
+        "days": 1,
+        "faseId": "cie13w86",
+        "note": ""
+      }
+    ],
+    "plaats_imported": {
+      "proj": [
+        {
+          "id": "crt4vfgm",
+          "project": "51904-SBL Clermont",
+          "raam": 30,
+          "vleugel": 25,
+          "deur": 7,
+          "schuifraam": 12,
+          "gordijngevel": 0,
+          "prioriteit": 10,
+          "deadline": "2026-09-30",
+          "kleur": "#ef03b2",
+          "voorlopig": false
+        },
+        {
+          "id": "p20gr8k0",
+          "project": "51448-Miraxvit Fase 2",
+          "raam": 10,
+          "vleugel": 0,
+          "deur": 6,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 10,
+          "deadline": "2026-09-25",
+          "kleur": "#571c4e",
+          "voorlopig": false
+        },
+        {
+          "id": "qe23jxqb",
+          "project": "54091-Vulpia Beukenhof",
+          "raam": 0,
+          "vleugel": 0,
+          "deur": 2,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 3,
+          "deadline": "2026-05-27",
+          "kleur": "#ff6f69"
+        },
+        {
+          "id": "nsh67m5h",
+          "project": "53111-Lenaerts-Deferm",
+          "raam": 0,
+          "vleugel": 0,
+          "deur": 1,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 4,
+          "deadline": "2026-06-05",
+          "kleur": "#91b417",
+          "voorlopig": false
+        },
+        {
+          "id": "alde4w3i",
+          "project": "52104-Eerkens Tom",
+          "raam": 1,
+          "vleugel": 1,
+          "deur": 0,
+          "schuifraam": 1,
+          "gordijngevel": 0,
+          "prioriteit": 4,
+          "deadline": "2026-06-15",
+          "kleur": "#472b23",
+          "voorlopig": false
+        },
+        {
+          "id": "n3umc4wc",
+          "project": "53807-Uten Wouter",
+          "raam": 26,
+          "vleugel": 6,
+          "deur": 2,
+          "schuifraam": 4,
+          "gordijngevel": 0,
+          "prioriteit": 2,
+          "deadline": "2026-06-15",
+          "kleur": "#d63f3a",
+          "voorlopig": false
+        },
+        {
+          "id": "4nide8ug",
+          "project": "53478-Seys Michael",
+          "raam": 2,
+          "vleugel": 2,
+          "deur": 4,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 3,
+          "deadline": "2026-06-19",
+          "kleur": "#cac9f7",
+          "voorlopig": false
+        },
+        {
+          "id": "pu3fspyc",
+          "project": "54381-s'Heeren Lieven",
+          "raam": 0,
+          "vleugel": 0,
+          "deur": 1,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 1,
+          "deadline": "2026-06-10",
+          "kleur": "#66d2cc",
+          "voorlopig": false
+        },
+        {
+          "id": "yjzhhswe",
+          "project": "53695-ZZED",
+          "raam": 1,
+          "vleugel": 0,
+          "deur": 1,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 5,
+          "deadline": "2026-06-22",
+          "kleur": "#fc690f",
+          "voorlopig": false
+        },
+        {
+          "id": "bzsvcgho",
+          "project": "51724-ZZED",
+          "raam": 3,
+          "vleugel": 0,
+          "deur": 1,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 5,
+          "deadline": "2026-06-22",
+          "kleur": "#e6b6b0",
+          "voorlopig": false
+        },
+        {
+          "id": "tcnm8bcx",
+          "project": "48579-Vise -Dalhem",
+          "raam": 38,
+          "vleugel": 34,
+          "deur": 2,
+          "schuifraam": 18,
+          "gordijngevel": 1,
+          "prioriteit": 8,
+          "deadline": "2026-07-10",
+          "kleur": "#e8f722",
+          "voorlopig": false
+        },
+        {
+          "id": "np4ozfl0",
+          "project": "50330-STRABAG - MOBILITEITSHUB",
+          "raam": 44,
+          "vleugel": 0,
+          "deur": 8,
+          "branddeur": 8,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 8,
+          "deadline": "2026-06-15",
+          "kleur": "#b0e0e6",
+          "voorlopig": false
+        },
+        {
+          "id": "sz0hlk2a",
+          "project": "53000-Martens Appeltans",
+          "raam": 16,
+          "vleugel": 15,
+          "deur": 2,
+          "schuifraam": 1,
+          "gordijngevel": 0,
+          "prioriteit": 1,
+          "deadline": "2026-06-03",
+          "kleur": "#b32323",
+          "voorlopig": false
+        },
+        {
+          "id": "kj85ft9i",
+          "project": "52286-Open Kerk",
+          "raam": 16,
+          "vleugel": 0,
+          "deur": 6,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 3,
+          "deadline": "2026-06-24",
+          "kleur": "#472042",
+          "voorlopig": false
+        },
+        {
+          "id": "nuseanj2",
+          "project": "49209-Perspective A",
+          "raam": 17,
+          "vleugel": 18,
+          "deur": 3,
+          "schuifraam": 8,
+          "gordijngevel": 0,
+          "prioriteit": 9,
+          "deadline": "2026-09-30",
+          "kleur": "#9dcc92",
+          "voorlopig": false
+        },
+        {
+          "id": "1o6gjlxi",
+          "project": "49211-Perspective C",
+          "raam": 43,
+          "vleugel": 39,
+          "deur": 21,
+          "schuifraam": 36,
+          "gordijngevel": 0,
+          "prioriteit": 9,
+          "deadline": "2026-09-30",
+          "kleur": "#5bbdb7",
+          "voorlopig": false
+        },
+        {
+          "id": "qfhtp8y8",
+          "project": "50522-Kleynen Immo",
+          "raam": 37,
+          "vleugel": 33,
+          "deur": 18,
+          "schuifraam": 17,
+          "gordijngevel": 0,
+          "prioriteit": 7,
+          "deadline": "2026-08-14",
+          "kleur": "#571301",
+          "voorlopig": false
+        },
+        {
+          "id": "9cca0nyc",
+          "project": "53847-Baerts Robrecht",
+          "raam": 8,
+          "vleugel": 6,
+          "deur": 1,
+          "schuifraam": 1,
+          "gordijngevel": 0,
+          "prioriteit": 3,
+          "deadline": "2026-06-30",
+          "kleur": "#f1ceee",
+          "voorlopig": false
+        },
+        {
+          "id": "v37np8la",
+          "project": "53466-Eggo Sint Niklaas",
+          "raam": 4,
+          "vleugel": 0,
+          "deur": 0,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 4,
+          "deadline": "2026-06-29",
+          "kleur": "#f6dda3",
+          "voorlopig": false
+        },
+        {
+          "id": "8zok96g2",
+          "project": "53398-Thijbo VOF",
+          "raam": 1,
+          "vleugel": 1,
+          "deur": 0,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 4,
+          "deadline": "2026-08-28",
+          "kleur": "#927388",
+          "voorlopig": false
+        },
+        {
+          "id": "5lcovaao",
+          "project": "53778- Pigment BV Dubbele deur",
+          "raam": 0,
+          "vleugel": 0,
+          "deur": 1,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 3,
+          "deadline": "2026-06-19",
+          "kleur": "#ff7373",
+          "voorlopig": false
+        },
+        {
+          "id": "gnetl9kg",
+          "project": "53732-Pigment BV inkom geheel",
+          "raam": 2,
+          "vleugel": 1,
+          "deur": 1,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 3,
+          "deadline": "2026-06-19",
+          "kleur": "#82c12d",
+          "voorlopig": false
+        },
+        {
+          "id": "oz6pi6j8",
+          "project": "52492 - Muri Jean Luc",
+          "raam": 1,
+          "vleugel": 1,
+          "deur": 0,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 2,
+          "deadline": "2026-07-03",
+          "kleur": "#db1aa8"
+        },
+        {
+          "id": "t1phsz7k",
+          "project": "50276 - Vitello Gabriel",
+          "raam": 16,
+          "vleugel": 17,
+          "deur": 2,
+          "schuifraam": 1,
+          "gordijngevel": 0,
+          "prioriteit": 5,
+          "deadline": "2026-07-31",
+          "kleur": "#54db1a"
+        },
+        {
+          "id": "66rx50nb",
+          "project": "50255-ABC en Partners BV",
+          "raam": 18,
+          "vleugel": 18,
+          "deur": 3,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 10,
+          "deadline": "",
+          "kleur": "#db1ac1",
+          "voorlopig": true
+        },
+        {
+          "id": "a2v8hwzh",
+          "project": "53735-Wauben",
+          "raam": 6,
+          "vleugel": 2,
+          "deur": 0,
+          "schuifraam": 0,
+          "gordijngevel": 0,
+          "prioriteit": 99,
+          "deadline": "2026-07-10",
+          "kleur": "#1adbbb",
+          "voorlopig": true
+        }
+      ],
+      "blk": [
+        {
+          "blockId": "f9sz61do",
+          "groupId": "z4awg3hn",
+          "projectId": "np4ozfl0",
+          "wc": "bewerken",
+          "dateStr": "2026-05-13",
+          "hours": 8,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "9zhu50ua",
+          "groupId": "z4awg3hn",
+          "projectId": "np4ozfl0",
+          "wc": "bewerken",
+          "dateStr": "2026-05-15",
+          "hours": 7,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "3bfhs5u0",
+          "groupId": "hpdt6myi",
+          "projectId": "qe23jxqb",
+          "wc": "bewerken",
+          "dateStr": "2026-05-20",
+          "hours": 0.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "gbpwo7ru",
+          "groupId": "aijslo5l",
+          "projectId": "qe23jxqb",
+          "wc": "deuren",
+          "dateStr": "2026-05-22",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "crmfhe1t",
+          "groupId": "1uo6gwt5",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-18",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "23w48r4g",
+          "groupId": "584o1rk6",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-19",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "1f2b6xeq",
+          "groupId": "bpeeg2ri",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-21",
+          "hours": 8,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "vegptxpd",
+          "groupId": "whduhsmd",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-22",
+          "hours": 8,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "z13elz5q",
+          "groupId": "11aoyy15",
+          "projectId": "n3umc4wc",
+          "wc": "bewerken",
+          "dateStr": "2026-05-21",
+          "hours": 8,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "7xu38sc1",
+          "groupId": "11aoyy15",
+          "projectId": "n3umc4wc",
+          "wc": "bewerken",
+          "dateStr": "2026-05-22",
+          "hours": 1.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "b6w5w1x4",
+          "groupId": "ojew7j5g",
+          "projectId": "nsh67m5h",
+          "wc": "bewerken",
+          "dateStr": "2026-06-01",
+          "hours": 0.25,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "3ba1s9q9",
+          "groupId": "y5yochbe",
+          "projectId": "n3umc4wc",
+          "wc": "deuren",
+          "dateStr": "2026-06-03",
+          "hours": 2,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "j4k57nfg",
+          "groupId": "duihf2sq",
+          "projectId": "pu3fspyc",
+          "wc": "deuren",
+          "dateStr": "2026-06-08",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "ovqtcl11",
+          "groupId": "03xwaju6",
+          "projectId": "alde4w3i",
+          "wc": "bewerken",
+          "dateStr": "2026-06-04",
+          "hours": 0.75,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "7wnwpz9n",
+          "groupId": "qxudydxr",
+          "projectId": "yjzhhswe",
+          "wc": "bewerken",
+          "dateStr": "2026-06-04",
+          "hours": 0.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "kkg3oggg",
+          "groupId": "684ekelj",
+          "projectId": "4nide8ug",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-09",
+          "hours": 1,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "sxtoazb5",
+          "groupId": "40b4g01u",
+          "projectId": "4nide8ug",
+          "wc": "deuren",
+          "dateStr": "2026-06-09",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "6j6ly5v8",
+          "groupId": "go6y6q7l",
+          "projectId": "4nide8ug",
+          "wc": "deuren",
+          "dateStr": "2026-06-09",
+          "hours": 8,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "hb1xvsqz",
+          "groupId": "e4wfee12",
+          "projectId": "4nide8ug",
+          "wc": "deuren",
+          "dateStr": "2026-06-09",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "jlyjsq4e",
+          "groupId": "40b4g01u",
+          "projectId": "4nide8ug",
+          "wc": "deuren",
+          "dateStr": "2026-06-10",
+          "hours": 4.8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "69t2hehy",
+          "groupId": "go6y6q7l",
+          "projectId": "4nide8ug",
+          "wc": "deuren",
+          "dateStr": "2026-06-10",
+          "hours": 4.8,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "gdye6k4h",
+          "groupId": "e4wfee12",
+          "projectId": "4nide8ug",
+          "wc": "deuren",
+          "dateStr": "2026-06-10",
+          "hours": 2.4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "75lvkba1",
+          "groupId": "faqvejfw",
+          "projectId": "4nide8ug",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-10",
+          "hours": 1,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "4lnfzeia",
+          "groupId": "xxsizdyk",
+          "projectId": "4nide8ug",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-11",
+          "hours": 1,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "9mg42e7x",
+          "groupId": "f3vlsq0o",
+          "projectId": "yjzhhswe",
+          "wc": "deuren",
+          "dateStr": "2026-06-05",
+          "hours": 3.2,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "ur8bxdrr",
+          "groupId": "jl595ja2",
+          "projectId": "yjzhhswe",
+          "wc": "deuren",
+          "dateStr": "2026-06-05",
+          "hours": 3.2,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "n0vzjgh4",
+          "groupId": "8wkffk38",
+          "projectId": "bzsvcgho",
+          "wc": "deuren",
+          "dateStr": "2026-06-08",
+          "hours": 5.33,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "mlieqai0",
+          "groupId": "xm50u4vm",
+          "projectId": "bzsvcgho",
+          "wc": "deuren",
+          "dateStr": "2026-06-08",
+          "hours": 2.67,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "euywfygl",
+          "groupId": "osimnrgz",
+          "projectId": "kj85ft9i",
+          "wc": "bewerken",
+          "dateStr": "2026-06-17",
+          "hours": 5.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "bghic1b0",
+          "groupId": "vyk38y7x",
+          "projectId": "kj85ft9i",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-18",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "y6ozpnnv",
+          "groupId": "vyk38y7x",
+          "projectId": "kj85ft9i",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-19",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "lh3cjk5b",
+          "groupId": "gafudkx6",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-18",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "ye60mqkd",
+          "groupId": "7r6rjh4h",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-18",
+          "hours": 8,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "hpaxtj3m",
+          "groupId": "ezoog1j1",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-18",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "0dk3f8ci",
+          "groupId": "gafudkx6",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-19",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "zxwdmvjk",
+          "groupId": "7r6rjh4h",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-19",
+          "hours": 8,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "8bfx1y3u",
+          "groupId": "ezoog1j1",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-19",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "n4wa769j",
+          "groupId": "gafudkx6",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-22",
+          "hours": 3.2,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "5ga0gnm4",
+          "groupId": "7r6rjh4h",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-22",
+          "hours": 3.2,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "bazhhl8c",
+          "groupId": "ezoog1j1",
+          "projectId": "kj85ft9i",
+          "wc": "deuren",
+          "dateStr": "2026-06-22",
+          "hours": 1.6,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "koikm8tm",
+          "groupId": "7ybsgovs",
+          "projectId": "oz6pi6j8",
+          "wc": "bewerken",
+          "dateStr": "2026-06-18",
+          "hours": 0.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "vsvd5vh6",
+          "groupId": "4j3d3t65",
+          "projectId": "oz6pi6j8",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-22",
+          "hours": 0.5,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "g3plu7wt",
+          "groupId": "ylxrpbwp",
+          "projectId": "oz6pi6j8",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-19",
+          "hours": 0.5,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "fatbckzm",
+          "groupId": "rjis3m3g",
+          "projectId": "oz6pi6j8",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-22",
+          "hours": 0.5,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "dfeaw0u9",
+          "groupId": "pz6mes7h",
+          "projectId": "oz6pi6j8",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-23",
+          "hours": 0.5,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "zsamy1yq",
+          "groupId": "3ngyexms",
+          "projectId": "pu3fspyc",
+          "wc": "bewerken",
+          "dateStr": "2026-06-04",
+          "hours": 0.25,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "r14wc861",
+          "groupId": "cxxdrjca",
+          "projectId": "bzsvcgho",
+          "wc": "bewerken",
+          "dateStr": "2026-06-05",
+          "hours": 1,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "23g0z8d9",
+          "groupId": "au495x6u",
+          "projectId": "4nide8ug",
+          "wc": "bewerken",
+          "dateStr": "2026-06-05",
+          "hours": 2,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "qr1wj7c7",
+          "groupId": "8wuol1ul",
+          "projectId": "5lcovaao",
+          "wc": "bewerken",
+          "dateStr": "2026-06-08",
+          "hours": 0.25,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "w4ahdecm",
+          "groupId": "oxq3l5fq",
+          "projectId": "gnetl9kg",
+          "wc": "bewerken",
+          "dateStr": "2026-06-08",
+          "hours": 1,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "miy67o4f",
+          "groupId": "uvze7wpj",
+          "projectId": "5lcovaao",
+          "wc": "deuren",
+          "dateStr": "2026-06-12",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "bgvzo7ko",
+          "groupId": "zasswhrs",
+          "projectId": "gnetl9kg",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-17",
+          "hours": 0.5,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "wb9hymdv",
+          "groupId": "2gslg305",
+          "projectId": "gnetl9kg",
+          "wc": "deuren",
+          "dateStr": "2026-06-12",
+          "hours": 5,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "e4bylaz9",
+          "groupId": "j0k0h8ty",
+          "projectId": "gnetl9kg",
+          "wc": "deuren",
+          "dateStr": "2026-06-12",
+          "hours": 3,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "i88lg0z0",
+          "groupId": "xp58bnmi",
+          "projectId": "sz0hlk2a",
+          "wc": "bewerken",
+          "dateStr": "2026-05-11",
+          "hours": 8,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "mf2vrm7k",
+          "groupId": "xp58bnmi",
+          "projectId": "sz0hlk2a",
+          "wc": "bewerken",
+          "dateStr": "2026-05-12",
+          "hours": 0.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "49d8y0wh",
+          "groupId": "eggdufff",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_kader",
+          "dateStr": "2026-05-15",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "6rwaoi0n",
+          "groupId": "eggdufff",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_kader",
+          "dateStr": "2026-05-18",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "9ng85o1a",
+          "groupId": "rs2coqrj",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-05-15",
+          "hours": 4,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "reoz4vtl",
+          "groupId": "rs2coqrj",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-05-18",
+          "hours": 3.5,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "ibqhnpf6",
+          "groupId": "uyiqwc87",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-05-19",
+          "hours": 7.5,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "tsag3gpm",
+          "groupId": "dyyzvawd",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-05-20",
+          "hours": 7.5,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "74x4vorb",
+          "groupId": "r4s6lywr",
+          "projectId": "sz0hlk2a",
+          "wc": "deuren",
+          "dateStr": "2026-05-18",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "x5s4ixc7",
+          "groupId": "6jx1fpor",
+          "projectId": "sz0hlk2a",
+          "wc": "schuiframen",
+          "dateStr": "2026-05-20",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "civtbi6k",
+          "groupId": "x4kqkj4q",
+          "projectId": "nsh67m5h",
+          "wc": "deuren",
+          "dateStr": "2026-06-04",
+          "hours": 2,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "3pnsksen",
+          "groupId": "fxxm4rcy",
+          "projectId": "n3umc4wc",
+          "wc": "deuren",
+          "dateStr": "2026-06-02",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "5ykh1y1e",
+          "groupId": "layx426j",
+          "projectId": "qe23jxqb",
+          "wc": "deuren",
+          "dateStr": "2026-05-26",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "xl030tz4",
+          "groupId": "mzf2gqke",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-17",
+          "hours": 0.5,
+          "personId": "8qsmp7ot",
+          "reworkId": "rw_a47szu451mpmcxq26"
+        },
+        {
+          "blockId": "5jdpmsh7",
+          "groupId": "e62qguvr",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-18",
+          "hours": 0.5,
+          "personId": "7curap0p",
+          "reworkId": "rw_a47szu451mpmcxq26"
+        },
+        {
+          "blockId": "emx00ooz",
+          "groupId": "mkqqjbf7",
+          "projectId": "sz0hlk2a",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-19",
+          "hours": 0.5,
+          "personId": "viz8z1mo",
+          "reworkId": "rw_a47szu451mpmcxq26"
+        },
+        {
+          "blockId": "o5g4mhua",
+          "groupId": "60am87es",
+          "projectId": "v37np8la",
+          "wc": "bewerken",
+          "dateStr": "2026-06-10",
+          "hours": 1,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "1s2qaubj",
+          "groupId": "krokjqq8",
+          "projectId": "a2v8hwzh",
+          "wc": "bewerken",
+          "dateStr": "2026-07-01",
+          "hours": 2,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "1zjj2gvt",
+          "groupId": "4khgwe0w",
+          "projectId": "a2v8hwzh",
+          "wc": "ramen_kader",
+          "dateStr": "2026-07-02",
+          "hours": 3,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "gwo46t1g",
+          "groupId": "4jr9u583",
+          "projectId": "a2v8hwzh",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-07-02",
+          "hours": 1,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "x0ws41vh",
+          "groupId": "4tg77a25",
+          "projectId": "a2v8hwzh",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-07-03",
+          "hours": 1,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "hrqqkoqy",
+          "groupId": "qvhmc33k",
+          "projectId": "a2v8hwzh",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-07-06",
+          "hours": 1,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "3fwo8wal",
+          "groupId": "n5akgy6v",
+          "projectId": "sz0hlk2a",
+          "wc": "deuren",
+          "dateStr": "2026-06-01",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "38ie3t38",
+          "groupId": "3ztn2s0d",
+          "projectId": "crt4vfgm",
+          "wc": "bewerken",
+          "dateStr": "2026-06-09",
+          "hours": 8,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "qt77tdcn",
+          "groupId": "3ztn2s0d",
+          "projectId": "crt4vfgm",
+          "wc": "bewerken",
+          "dateStr": "2026-06-10",
+          "hours": 7,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "g7570vne",
+          "groupId": "3ztn2s0d",
+          "projectId": "crt4vfgm",
+          "wc": "bewerken",
+          "dateStr": "2026-06-11",
+          "hours": 3.5,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "8w04jftu",
+          "groupId": "k2hz5l2j",
+          "projectId": "np4ozfl0",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-09",
+          "hours": 6,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "0nmhstqp",
+          "groupId": "l9namlls",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-08",
+          "hours": 3,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "fheisz18",
+          "groupId": "bup4qq6q",
+          "projectId": "alde4w3i",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-08",
+          "hours": 1,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "78gb5h64",
+          "groupId": "xh1983cq",
+          "projectId": "alde4w3i",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-08",
+          "hours": 1,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "mgl099eg",
+          "groupId": "6995qusn",
+          "projectId": "yjzhhswe",
+          "wc": "deuren",
+          "dateStr": "2026-06-08",
+          "hours": 1.6,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "zudf3rfn",
+          "groupId": "n5pxb5ye",
+          "projectId": "n3umc4wc",
+          "wc": "deuren",
+          "dateStr": "2026-06-01",
+          "hours": 6,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "0hpjbgvc",
+          "groupId": "a69soyq6",
+          "projectId": "nsh67m5h",
+          "wc": "deuren",
+          "dateStr": "2026-06-02",
+          "hours": 6,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "ubctz5nm",
+          "groupId": "m3aeucg7",
+          "projectId": "n3umc4wc",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-08",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "1wmbjdpz",
+          "groupId": "m3aeucg7",
+          "projectId": "n3umc4wc",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-09",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "kihveifb",
+          "groupId": "m3aeucg7",
+          "projectId": "n3umc4wc",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-10",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "9nmn6skz",
+          "groupId": "m3aeucg7",
+          "projectId": "n3umc4wc",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-11",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "8ml67do9",
+          "groupId": "fh9x4qts",
+          "projectId": "alde4w3i",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-12",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "2d0suegq",
+          "groupId": "2srzdrkt",
+          "projectId": "gnetl9kg",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-22",
+          "hours": 0.5,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "0dt4qeq7",
+          "groupId": "ir6ckgxm",
+          "projectId": "alde4w3i",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-09",
+          "hours": 0.5,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "z1lgpqb1",
+          "groupId": "yrcpn9ap",
+          "projectId": "alde4w3i",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-10",
+          "hours": 1,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "k0cljlod",
+          "groupId": "efvd87m6",
+          "projectId": "gnetl9kg",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-11",
+          "hours": 0.5,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "5v3okqk4",
+          "groupId": "z7ul3xzp",
+          "projectId": "np4ozfl0",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-10",
+          "hours": 8,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "rtjo1tnj",
+          "groupId": "8p22r703",
+          "projectId": "yjzhhswe",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-09",
+          "hours": 0.5,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "5wuehmzo",
+          "groupId": "3eh1erxj",
+          "projectId": "4nide8ug",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-09",
+          "hours": 1,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "tkqipurg",
+          "groupId": "aqz8x6sg",
+          "projectId": "bzsvcgho",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-09",
+          "hours": 1.5,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "73b06wfk",
+          "groupId": "ogzj6kdj",
+          "projectId": "np4ozfl0",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-09",
+          "hours": 8,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "am8j4xyl",
+          "groupId": "pcqe7eh2",
+          "projectId": "v37np8la",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-11",
+          "hours": 2,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "kiojd2kk",
+          "groupId": "akzb48ma",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-10",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "j80xmh45",
+          "groupId": "akzb48ma",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-11",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "cyjs91nw",
+          "groupId": "akzb48ma",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-12",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "x6102qe5",
+          "groupId": "akzb48ma",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-15",
+          "hours": 1,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "1493gsab",
+          "groupId": "9ck2gj8u",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-15",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "d2bn22br",
+          "groupId": "c3y4ia9j",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-15",
+          "hours": 8,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "pcxt88c5",
+          "groupId": "eqdafemf",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-15",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "worl94iy",
+          "groupId": "9ck2gj8u",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-16",
+          "hours": 8,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "hcacxopk",
+          "groupId": "c3y4ia9j",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-16",
+          "hours": 8,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "5dj2z7yd",
+          "groupId": "eqdafemf",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-16",
+          "hours": 4,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "80l9odr5",
+          "groupId": "9ck2gj8u",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-17",
+          "hours": 6.4,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "v3pf9fz8",
+          "groupId": "c3y4ia9j",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-17",
+          "hours": 6.4,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "l3q6q509",
+          "groupId": "eqdafemf",
+          "projectId": "crt4vfgm",
+          "wc": "deuren",
+          "dateStr": "2026-06-17",
+          "hours": 3.2,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "znxzo88r",
+          "groupId": "6m56omny",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-11",
+          "hours": 3,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "twjkbn9w",
+          "groupId": "1rqvd6nj",
+          "projectId": "n3umc4wc",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-16",
+          "hours": 3,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "q2q6xuwm",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-15",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "loslhxq7",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-16",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "r5kzc657",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-17",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "ecjg3hez",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-18",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "uol4vgtj",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-19",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "2bfg2x6o",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-22",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "cxrl8vu1",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-23",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "1wmqgvxb",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-24",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "8zbnvfoo",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-25",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "7nip4qen",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-26",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "bbpih5rv",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-29",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "ktwnmxky",
+          "groupId": "oymrvx52",
+          "projectId": "crt4vfgm",
+          "wc": "schuiframen",
+          "dateStr": "2026-06-30",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "mzzwt3w3",
+          "groupId": "pqakgukr",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-12",
+          "hours": 4,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "pd1woxm2",
+          "groupId": "pqakgukr",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-15",
+          "hours": 4,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "765ks4m9",
+          "groupId": "pqakgukr",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-16",
+          "hours": 4,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "7hgltlxw",
+          "groupId": "pqakgukr",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-17",
+          "hours": 0.5,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "u0f1ce15",
+          "groupId": "7iqa6fet",
+          "projectId": "gnetl9kg",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-16",
+          "hours": 1,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "khj1ekzr",
+          "groupId": "zg623try",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-23",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "w6u7yxbl",
+          "groupId": "zg623try",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-24",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "og5t1bum",
+          "groupId": "zg623try",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-25",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "y8hvflj1",
+          "groupId": "zg623try",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-26",
+          "hours": 3,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "yjgtar1z",
+          "groupId": "t8o9z951",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-24",
+          "hours": 8,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "kz701jn8",
+          "groupId": "t8o9z951",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-25",
+          "hours": 4.5,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "fi0ys0j1",
+          "groupId": "qocdn1cs",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-25",
+          "hours": 8,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "p6nclo8i",
+          "groupId": "qocdn1cs",
+          "projectId": "crt4vfgm",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-26",
+          "hours": 4.5,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "cxygfk3x",
+          "groupId": "i52cvfhh",
+          "projectId": "t1phsz7k",
+          "wc": "bewerken",
+          "dateStr": "2026-06-12",
+          "hours": 8,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "j6j53bdp",
+          "groupId": "i52cvfhh",
+          "projectId": "t1phsz7k",
+          "wc": "bewerken",
+          "dateStr": "2026-06-15",
+          "hours": 1,
+          "personId": "kwc4em5r"
+        },
+        {
+          "blockId": "i6pgwedt",
+          "groupId": "o824z0sa",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-17",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "en7lanzz",
+          "groupId": "o824z0sa",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_kader",
+          "dateStr": "2026-06-29",
+          "hours": 4,
+          "personId": "slx1lo4d"
+        },
+        {
+          "blockId": "zjvjs5yj",
+          "groupId": "wfz9ziqe",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-18",
+          "hours": 4,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "o9v8eota",
+          "groupId": "wfz9ziqe",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-22",
+          "hours": 4,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "trilhaoh",
+          "groupId": "wfz9ziqe",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_vleugel",
+          "dateStr": "2026-06-23",
+          "hours": 0.5,
+          "personId": "8qsmp7ot"
+        },
+        {
+          "blockId": "1ckkfdy1",
+          "groupId": "8fuo534w",
+          "projectId": "t1phsz7k",
+          "wc": "deuren",
+          "dateStr": "2026-06-23",
+          "hours": 6.4,
+          "personId": "1son19ty"
+        },
+        {
+          "blockId": "73dfa24e",
+          "groupId": "flv86wel",
+          "projectId": "t1phsz7k",
+          "wc": "deuren",
+          "dateStr": "2026-06-23",
+          "hours": 6.4,
+          "personId": "w8kq07x9"
+        },
+        {
+          "blockId": "w2tkay10",
+          "groupId": "c415q8af",
+          "projectId": "t1phsz7k",
+          "wc": "deuren",
+          "dateStr": "2026-06-23",
+          "hours": 3.2,
+          "personId": "11jl6xv7"
+        },
+        {
+          "blockId": "emocudve",
+          "groupId": "z9hgx8k5",
+          "projectId": "t1phsz7k",
+          "wc": "schuiframen",
+          "dateStr": "2026-07-01",
+          "hours": 8,
+          "personId": "6iru2m84"
+        },
+        {
+          "blockId": "z4484iu1",
+          "groupId": "vjtup33r",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-19",
+          "hours": 8,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "bb7peiol",
+          "groupId": "vjtup33r",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_beslag",
+          "dateStr": "2026-06-23",
+          "hours": 0.5,
+          "personId": "7curap0p"
+        },
+        {
+          "blockId": "s5o90s2a",
+          "groupId": "x44y2sqc",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-24",
+          "hours": 8,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "u87vdcnz",
+          "groupId": "x44y2sqc",
+          "projectId": "t1phsz7k",
+          "wc": "ramen_afhangen",
+          "dateStr": "2026-06-29",
+          "hours": 0.5,
+          "personId": "viz8z1mo"
+        },
+        {
+          "blockId": "mbrkydoe",
+          "groupId": "bmw6ndjo",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-06-01",
+          "hours": 8,
+          "personId": "sou34hfx"
+        },
+        {
+          "blockId": "ff2s0h5m",
+          "groupId": "bmw6ndjo",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-27",
+          "hours": 8,
+          "personId": "sou34hfx"
+        },
+        {
+          "blockId": "z071c5h7",
+          "groupId": "bmw6ndjo",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-28",
+          "hours": 8,
+          "personId": "sou34hfx"
+        },
+        {
+          "blockId": "6ge1q0f6",
+          "groupId": "bmw6ndjo",
+          "projectId": "np4ozfl0",
+          "wc": "deuren",
+          "dateStr": "2026-05-29",
+          "hours": 8,
+          "personId": "sou34hfx"
+        }
+      ],
+      "closed": [
+        {
+          "from": "2026-01-01",
+          "to": "2026-01-01",
+          "label": "Nieuwjaar"
+        },
+        {
+          "from": "2026-04-06",
+          "to": "2026-04-06",
+          "label": "Paasmaandag"
+        },
+        {
+          "from": "2026-05-01",
+          "to": "2026-05-01",
+          "label": "Dag van de Arbeid"
+        },
+        {
+          "from": "2026-05-14",
+          "to": "2026-05-14",
+          "label": "OLV Hemelvaart (Hemelvaartsdag)"
+        },
+        {
+          "from": "2026-05-25",
+          "to": "2026-05-25",
+          "label": "Pinkstermaandag"
+        },
+        {
+          "from": "2026-07-13",
+          "to": "2026-07-31",
+          "label": "Bouwverlof"
+        },
+        {
+          "from": "2026-07-21",
+          "to": "2026-07-21",
+          "label": "Nationale feestdag"
+        },
+        {
+          "from": "2026-08-15",
+          "to": "2026-08-15",
+          "label": "OLV Hemelvaart"
+        },
+        {
+          "from": "2026-11-01",
+          "to": "2026-11-01",
+          "label": "Allerheiligen"
+        },
+        {
+          "from": "2026-11-11",
+          "to": "2026-11-11",
+          "label": "Wapenstilstand"
+        },
+        {
+          "from": "2026-12-25",
+          "to": "2026-12-25",
+          "label": "Kerstmis"
+        }
+      ],
+      "at": "2026-05-28T11:51:53.883Z"
+    }
+  }
+}

@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Plaatsing-planning</title>
+<style>
+/* ════════════════════════════════════════
+   DEEL 1 — BASIS STIJLEN
+════════════════════════════════════════ */
+:root {
+  --primary:#1a56db; --primary-dark:#1240a8; --accent:#e8f0fe;
+  --bg:#f5f7fa; --card:#fff; --border:#d1d5db;
+  --text:#1f2937; --muted:#6b7280;
+  --success:#059669; --warning:#d97706; --danger:#dc2626;
+  --row-even:#f0f4ff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+header{background:var(--primary);color:#fff;padding:16px 28px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+header h1{font-size:20px;font-weight:600;}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);padding:0 24px;overflow-x:auto;}
+.tab-btn{padding:13px 18px;border:none;background:none;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+.tab-btn:hover{color:var(--primary);}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);}
+.tab-content{display:none;padding:22px;max-width:1500px;margin:0 auto;}
+.tab-content.active{display:block;}
+.card{background:#fff;border-radius:10px;border:1px solid var(--border);padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.card h2{font-size:15px;font-weight:600;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.grid3{display:grid;grid-template-columns:200px 140px 80px;align-items:center;gap:9px 14px;}
+.grid3 label{font-weight:500;}
+.unit{color:var(--muted);font-size:13px;}
+input[type="number"],input[type="text"],input[type="date"],select{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:14px;width:100%;transition:border-color .2s;}
+input:focus,select:focus{outline:none;border-color:var(--primary);}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;transition:background .2s,transform .1s;white-space:nowrap;}
+.btn:active{transform:scale(.98);}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-dark);}
+.btn-secondary{background:#fff;color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:var(--bg);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-success:hover{background:#047857;}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.sep{height:1px;background:var(--border);margin:14px 0;}
+.info-text{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.stat-box{background:var(--accent);border-radius:8px;padding:10px 16px;min-width:120px;}
+.stat-box .val{font-size:20px;font-weight:700;color:var(--primary);}
+.stat-box .lbl{font-size:11px;color:var(--muted);margin-top:1px;}
+.dropzone{border:2px dashed var(--border);border-radius:10px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px;}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--primary);background:var(--accent);}
+.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{background:#f1f5f9;padding:9px 10px;text-align:left;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;}
+thead th:hover{background:#e2e8f0;}
+tbody tr:nth-child(even){background:var(--row-even);}
+tbody tr:hover{background:#dbeafe;}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;}
+td.num{text-align:right;}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:600;}
+.badge-blue{background:#dbeafe;color:#1d4ed8;}
+.badge-green{background:#d1fae5;color:#065f46;}
+.badge-red{background:#fee2e2;color:#991b1b;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:12px;padding:24px;width:460px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;}
+.modal-box h3{margin-bottom:14px;font-size:16px;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mgrid .full{grid-column:1/-1;}
+.mgrid label{font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:3px;}
+.mfooter{display:flex;gap:8px;margin-top:16px;justify-content:flex-end;}
+#toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;z-index:9999;max-width:300px;}
+#toast.show{opacity:1;}
+</style>
+<style>
+/* ════════════════════════════════════════
+   DEEL 2 — KALENDER / BLOKKEN / GANTT / PRINT
+════════════════════════════════════════ */
+
+/* Tooltip */
+#cal-tooltip{position:fixed;z-index:9500;background:#1e293b;color:#fff;padding:8px 12px;border-radius:7px;font-size:12px;line-height:1.6;pointer-events:none;opacity:0;transition:opacity .15s;max-width:210px;box-shadow:0 4px 12px rgba(0,0,0,.3);white-space:pre-line;}
+#cal-tooltip.show{opacity:1;}
+
+/* Kalender toolbar */
+.cal-toolbar{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.cal-toolbar > div{display:flex;flex-direction:column;gap:3px;}
+.cal-toolbar label{font-size:12px;font-weight:500;color:var(--muted);}
+
+/* Kalender grid */
+.cal-outer{overflow-x:auto;border:1px solid var(--border);border-radius:8px;}
+
+/* Capaciteits-check en wanneer-klaar-berekenaar cards */
+.check-card{
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
+.check-card summary{
+  cursor:pointer;
+  padding:12px 16px;
+  font-weight:600;
+  font-size:14px;
+  user-select:none;
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.check-card summary::-webkit-details-marker{display:none;}
+.check-card summary::before{content:'▸';color:var(--muted);margin-right:6px;transition:transform .15s;}
+.check-card[open] summary::before{transform:rotate(90deg);}
+.check-card[open] summary{border-bottom:1px solid var(--border);background:#fff;}
+
+/* Hulpmiddelen-uitklap-container (verbergt de drie check-cards standaard) */
+.check-tools-wrap summary{list-style:none;}
+.check-tools-wrap summary::-webkit-details-marker{display:none;}
+.check-tools-wrap summary::before{content:'▸';color:#475569;margin-right:6px;transition:transform .15s;display:inline-block;}
+.check-tools-wrap[open] summary::before{transform:rotate(90deg);}
+.check-tools-wrap[open] summary{background:#e0e7ff;border-color:#a5b4fc;}
+.check-body{padding:14px 16px;background:#fff;}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;}
+.check-grid label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;}
+.check-grid input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;}
+.check-grid input:focus{border-color:var(--primary);outline:none;}
+
+/* Capaciteits-resultaat tabel */
+.cap-result-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;}
+.cap-result-table th, .cap-result-table td{padding:5px 8px;text-align:right;border-bottom:1px solid var(--border);}
+.cap-result-table th{background:#1f2937;font-weight:600;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.04em;}
+.cap-result-table td:first-child, .cap-result-table th:first-child{text-align:left;}
+.cap-result-table .row-today{background:#fffbeb;font-weight:600;}
+.cap-result-table .util-full{color:#dc2626;font-weight:700;}
+.cap-result-table .util-over{color:#991b1b;font-weight:800;text-decoration:underline;}
+.cap-result-table .util-high{color:#d97706;font-weight:600;}
+.cap-result-table .util-low{color:#6b7280;}
+.cap-result-table .util-bar{display:inline-block;width:40px;height:6px;background:#e5e7eb;border-radius:3px;vertical-align:middle;margin-right:4px;overflow:hidden;position:relative;}
+.cap-result-table .util-bar-fill{position:absolute;left:0;top:0;bottom:0;background:#059669;}
+.cap-result-table .util-bar-fill.over{background:#991b1b;}
+.cap-result-table .util-bar-fill.full{background:#dc2626;}
+.cap-result-table .util-bar-fill.high{background:#f59e0b;}
+
+/* Resultaat van wanneer-klaar */
+.whatif-result-box{
+  background:linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border:1px solid #6ee7b7;
+  border-radius:8px;
+  padding:14px 18px;
+}
+.whatif-result-box.warn{
+  background:linear-gradient(135deg, #fef3c7, #fde68a);
+  border-color:#fbbf24;
+}
+.whatif-result-box .big-date{
+  font-size:22px;
+  font-weight:700;
+  font-family:'Fraunces',Georgia,serif;
+  color:#047857;
+  margin-bottom:4px;
+}
+.whatif-result-box.warn .big-date{color:#92400e;}
+.whatif-result-box .breakdown{
+  font-size:12px;
+  color:#374151;
+  margin-top:8px;
+}
+.whatif-result-box .breakdown table{width:100%;border-collapse:collapse;}
+.whatif-result-box .breakdown td{padding:3px 6px;}
+
+/* Plaatsing tab */
+.plaatsing-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+.plaatsing-table thead tr{background:#1f2937;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.04em;}
+.plaatsing-table thead th{padding:8px 10px;text-align:left;border-bottom:1.5px solid #1f2937;font-weight:600;background:#1f2937;color:#fff;}
+.plaatsing-table th{padding:8px 10px;text-align:left;border-bottom:1.5px solid #1f2937;font-weight:600;}
+.plaatsing-table td{padding:8px 10px;border-bottom:1px solid #e5e7eb;vertical-align:top;}
+.plaatsing-table tbody tr:hover{background:#f8fafc;}
+.plaatsing-table .pl-complete{color:#047857;font-weight:600;}
+.plaatsing-table .pl-partial{color:#d97706;font-weight:600;font-size:11px;}
+.plaatsing-table .pl-none{color:#dc2626;font-weight:600;}
+
+.plaatsing-timeline{display:flex;flex-direction:column;gap:6px;margin-top:6px;position:relative;padding-left:8px;}
+.plaatsing-timeline::before{content:'';position:absolute;left:18px;top:8px;bottom:8px;width:2px;background:#e5e7eb;}
+.pl-tl-row{display:flex;align-items:flex-start;gap:14px;padding:6px 0;}
+.pl-tl-date-col{display:flex;align-items:center;gap:8px;flex-shrink:0;width:120px;position:relative;z-index:1;}
+.pl-tl-dot{width:14px;height:14px;border-radius:50%;background:#3b82f6;border:2.5px solid #fff;box-shadow:0 0 0 1px #3b82f6;flex-shrink:0;margin-left:3px;}
+.pl-tl-dot.past{background:#9ca3af;box-shadow:0 0 0 1px #9ca3af;}
+.pl-tl-dot.today{background:#f59e0b;box-shadow:0 0 0 1px #f59e0b,0 0 0 4px rgba(245,158,11,.2);}
+.pl-tl-date{display:flex;flex-direction:column;line-height:1.2;}
+.pl-tl-date-main{font-weight:700;font-size:13px;color:#1f2937;}
+.pl-tl-date-sub{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.pl-tl-projs{display:flex;flex-wrap:wrap;gap:6px;flex:1;}
+.pl-tl-chip{padding:4px 9px;border-radius:5px;font-size:12px;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+
+/* Magazijn tab — on-screen */
+.magazijn-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+.magazijn-table thead tr{background:#1f2937;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.04em;}
+.magazijn-table thead th{padding:8px 10px;text-align:left;border-bottom:1.5px solid #1f2937;font-weight:600;background:#1f2937;color:#fff;}
+.magazijn-table th{padding:8px 10px;text-align:left;border-bottom:1.5px solid #1f2937;font-weight:600;}
+.magazijn-table td{padding:8px 10px;border-bottom:1px solid #e5e7eb;vertical-align:top;}
+.magazijn-table tbody tr:hover{background:#f8fafc;}
+.mag-filter-btn.active{background:#1f2937;color:#fff;border-color:#1f2937;}
+.magazijn-table tr.mag-row-handled td{
+  background:#ecfdf5 !important;
+  color:#6b7280;
+  text-decoration:line-through;
+  text-decoration-color:#9ca3af;
+  text-decoration-thickness:1px;
+}
+.magazijn-table tr.mag-row-handled input[type="checkbox"]{
+  text-decoration:none;  /* checkbox zelf niet doorstrepen */
+}
+
+/* Stuklijst (picking-lijst voor magazijniers) */
+.sl-progress{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.sl-progress-bar{flex:1;min-width:200px;height:20px;background:#e5e7eb;border-radius:10px;overflow:hidden;position:relative;}
+.sl-progress-fill{height:100%;background:linear-gradient(90deg,#10b981,#059669);transition:width .3s ease;}
+.sl-progress-text{font-size:13px;font-weight:600;color:#1f2937;}
+.sl-cat-section{margin-bottom:20px;}
+.sl-cat-header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#1f2937;color:#fff;border-radius:6px 6px 0 0;font-weight:700;font-size:14px;cursor:pointer;user-select:none;}
+.sl-cat-header.ramen{background:#2563eb;}
+.sl-cat-header.deuren{background:#dc2626;}
+.sl-cat-header.schuiframen{background:#7c3aed;}
+.sl-cat-header.gordijngevels{background:#059669;}
+.sl-cat-header .sl-cat-toggle{margin-left:auto;font-size:11px;opacity:.9;font-weight:500;}
+.sl-cat-body{border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px;background:#fff;}
+.sl-cat-body.collapsed{display:none;}
+.sl-table{width:100%;border-collapse:collapse;font-size:13px;}
+.sl-table th{padding:8px 10px;background:#f9fafb;border-bottom:1.5px solid #d1d5db;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#374151;text-align:left;font-weight:600;}
+.sl-table td{padding:10px 10px;border-bottom:1px solid #f1f5f9;vertical-align:middle;}
+.sl-table tr.sl-done td{background:#f0fdf4;color:#6b7280;}
+.sl-table tr.sl-done td.sl-desc, .sl-table tr.sl-done td.sl-art, .sl-table tr.sl-done td.sl-qty{text-decoration:line-through;text-decoration-color:#9ca3af;}
+.sl-table tr.sl-done td.sl-check{text-decoration:none;}
+.sl-table input[type="checkbox"]{transform:scale(1.4);cursor:pointer;margin-right:4px;}
+.sl-table td.sl-check{width:50px;text-align:center;}
+.sl-table td.sl-art{font-family:'SF Mono','Consolas',monospace;font-weight:600;color:#1f2937;width:120px;}
+.sl-table td.sl-qty{font-weight:700;color:#1f2937;text-align:right;width:90px;font-size:14px;}
+.sl-table td.sl-qty .sl-lpdm{display:block;font-size:11px;font-weight:500;color:#7c3aed;}
+.sl-table td.sl-desc{color:#374151;}
+.sl-table td.sl-merken{font-size:12px;color:#475569;font-family:Georgia,'Cambria','Times New Roman',serif;font-style:italic;letter-spacing:0.01em;max-width:280px;word-wrap:break-word;}
+.sl-cat-summary{padding:8px 14px;background:#f9fafb;border-top:1px solid #e5e7eb;font-size:12px;color:#374151;display:flex;gap:14px;flex-wrap:wrap;}
+.sl-cat-summary strong{color:#1f2937;}
+
+/* Print-modus voor stuklijst.
+   De bestaande regel `body > *:not(#print-view){display:none !important}` heeft
+   specificiteit 101 en verbergt ook #stuklijst-print-view. Om dat te overrulen
+   gebruiken we body.sl-printing als extra anker (specificiteit 111). */
+@media print {
+  body.sl-printing > *{display:none !important;}
+  body.sl-printing > #stuklijst-print-view{display:block !important;}
+  body.sl-printing #print-view{display:none !important;}
+}
+#stuklijst-print-view{display:none;}
+.sl-print-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #1f2937;padding-bottom:6px;margin-bottom:10px;}
+.sl-print-title{font-size:18px;font-weight:700;}
+.sl-print-meta{font-size:10px;color:#6b7280;text-align:right;}
+.sl-print-cat{margin-bottom:14px;page-break-inside:avoid;}
+.sl-print-cat-title{font-size:14px;font-weight:700;padding:6px 10px;color:#fff;border-radius:3px;margin-bottom:0;}
+.sl-print-cat-title.ramen{background:#2563eb;}
+.sl-print-cat-title.deuren{background:#dc2626;}
+.sl-print-cat-title.schuiframen{background:#7c3aed;}
+.sl-print-cat-title.gordijngevels{background:#059669;}
+.sl-print-table{width:100%;border-collapse:collapse;font-size:10px;}
+.sl-print-table th{background:#f3f4f6;border-bottom:1.5px solid #1f2937;padding:4px 6px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.04em;}
+.sl-print-table td{border-bottom:1px solid #e5e7eb;padding:3px 6px;vertical-align:top;}
+.sl-print-table td.c{text-align:center;width:24px;}
+.sl-print-table td.r{text-align:right;font-weight:700;width:60px;}
+.sl-print-table td.art{font-family:monospace;width:90px;font-weight:600;}
+.sl-print-checkbox{width:12px;height:12px;border:1.5px solid #1f2937;display:inline-block;border-radius:2px;}
+
+/* Componentenlijst — master overzicht over alle stuklijsten heen */
+#components-card{margin-top:14px;}
+.cl-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.cl-search{padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;min-width:240px;font-size:13px;background:#fff;}
+.cl-search:focus{border-color:#2563eb;outline:none;}
+.cl-stats{font-size:12px;color:#6b7280;margin-left:auto;}
+.cl-stats strong{color:#1f2937;}
+.cl-table-wrap{max-height:70vh;overflow-y:auto;border:1px solid #e5e7eb;border-radius:6px;}
+.cl-table{width:100%;border-collapse:collapse;font-size:13px;}
+.cl-table thead th{position:sticky;top:0;background:#f3f4f6;z-index:1;padding:8px 10px;text-align:left;border-bottom:2px solid #cbd5e1;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:#4b5563;font-weight:700;}
+.cl-table th.sortable{cursor:pointer;user-select:none;}
+.cl-table th.sortable:hover{background:#e5e7eb;}
+.cl-table tbody td{padding:5px 10px;border-bottom:1px solid #f1f5f9;vertical-align:middle;}
+.cl-table tbody tr:hover{background:#fafbfc;}
+.cl-table td.cl-art{font-family:'SF Mono','Consolas',monospace;font-weight:600;color:#1f2937;width:110px;}
+.cl-table td.cl-desc{color:#374151;max-width:280px;}
+.cl-table td.cl-qty{text-align:right;font-weight:700;width:70px;color:#1f2937;}
+.cl-table td.cl-meter{text-align:right;color:#7c3aed;width:80px;font-size:12px;}
+.cl-table td.cl-meter.muted{color:#cbd5e1;}
+.cl-table td.cl-cats{width:90px;white-space:nowrap;}
+.cl-cat-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;color:#fff;margin-right:2px;line-height:14px;}
+.cl-cat-badge.r{background:#2563eb;}
+.cl-cat-badge.d{background:#dc2626;}
+.cl-cat-badge.s{background:#7c3aed;}
+.cl-cat-badge.g{background:#059669;}
+.cl-cat-badge.g{background:#059669;}
+.cl-table td.cl-proj{font-size:11px;color:#64748b;width:90px;}
+.cl-table td.cl-alt{width:240px;}
+.cl-alt-input{width:100%;padding:4px 6px;border:1px solid #e5e7eb;border-radius:3px;font-size:12px;font-family:inherit;background:#fff;color:#1f2937;}
+.cl-alt-input:focus{border-color:#2563eb;outline:none;background:#fff;}
+.cl-alt-input.has-value{background:#fef3c7;border-color:#f59e0b;font-weight:600;}
+.cl-empty{padding:30px;text-align:center;color:#9ca3af;font-style:italic;}
+
+/* Backup & herstel — data-portabiliteit tussen locaties */
+#backup-card{border-left:5px solid #2563eb;background:linear-gradient(to right,#eff6ff,#fff 30%);}
+#backup-card h2{color:#1e3a8a;}
+.bk-info{background:#fef3c7;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:4px;margin-bottom:14px;font-size:13px;color:#78350f;}
+.bk-info strong{color:#451a03;}
+.bk-status{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;margin-bottom:14px;flex-wrap:wrap;}
+.bk-status-icon{font-size:24px;}
+.bk-status-text{flex:1;min-width:200px;}
+.bk-status-text strong{display:block;font-size:14px;color:#1f2937;}
+.bk-status-text span{font-size:12px;color:#6b7280;}
+.bk-status.warn{background:#fef3c7;border-color:#fbbf24;}
+.bk-status.warn .bk-status-text strong{color:#78350f;}
+.bk-status.ok{background:#dcfce7;border-color:#86efac;}
+.bk-status.ok .bk-status-text strong{color:#14532d;}
+.bk-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.bk-actions .btn{padding:8px 18px;}
+.bk-actions input[type="file"]{display:none;}
+.bk-stats{margin-top:14px;padding:12px;background:#f8fafc;border-radius:6px;font-size:12px;color:#475569;}
+.bk-stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 16px;margin-top:6px;}
+.bk-stats-grid > div{padding:4px 0;}
+.bk-stats-grid strong{color:#1f2937;font-size:14px;}
+
+.cal-grid{display:grid;background:#fff;width:max-content;min-width:100%;}
+.cal-corner{background:#f1f5f9;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 10px;font-size:12px;font-weight:600;color:var(--muted);position:sticky;left:0;z-index:4;width:170px;}
+.cal-day-head{background:#f1f5f9;border-right:1px solid #e5e7eb;border-bottom:1px solid var(--border);padding:5px 3px;text-align:center;font-size:11px;font-weight:600;color:var(--muted);width:120px;min-width:120px;}
+.cal-day-head.we{background:#f8fafc;color:#9ca3af;}
+.cal-day-head.td{background:#fef3c7;color:#92400e;border:2px solid #f59e0b;font-weight:700;}
+.cal-wc-label{background:#f8fafc;border-right:1px solid var(--border);border-bottom:1px solid #e5e7eb;padding:6px 10px;font-size:12px;font-weight:600;position:sticky;left:0;z-index:2;display:flex;align-items:center;gap:6px;width:170px;white-space:nowrap;min-height:92px;}
+.cal-wc-label.invaller{background:#fffbeb;border-left:3px solid #f59e0b;}
+/* Lead-rij = hoofd-werkcentrum (verantwoordelijke).
+   Krijgt sterker links-accent in de project-kleur en een lichte achtergrond. */
+.cal-wc-label.lead-row{
+  background:#f0f9ff;
+  border-left:4px solid var(--lead-color, #3b82f6);
+  font-weight:700;
+}
+.cal-wc-label.lead-row .cal-wc-bar{display:none;}  /* color zit in left-border */
+/* Helper-rij = secundaire capaciteit. Wat lichter, smaller accent. */
+.cal-wc-label.helper-row{
+  background:#fafafa;
+  border-left:2px solid #cbd5e1;
+  padding-left:14px;  /* lichte indent t.o.v. lead */
+}
+.cal-wc-label.helper-row .cal-wc-bar{opacity:.4;width:2px;}
+/* Collapse-knop in de lead-rij om helpers te tonen/verbergen */
+.cal-wc-collapse{
+  background:transparent;border:1px solid #cbd5e1;border-radius:4px;
+  font-size:10px;font-weight:600;padding:1px 5px;cursor:pointer;
+  color:#475569;line-height:1.2;margin-left:auto;
+}
+.cal-wc-collapse:hover{background:#e2e8f0;border-color:#94a3b8;}
+.cal-wc-collapse.collapsed{background:#fef3c7;border-color:#f59e0b;color:#92400e;}
+.cal-wc-bar{width:4px;height:26px;border-radius:2px;flex-shrink:0;}
+.cal-cell{border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;width:120px;min-width:120px;min-height:92px;padding:3px;background:#fff;position:relative;}
+.cal-cell.we{background:#fafafa;}
+.cal-cell.td{background:#fffbeb;box-shadow:inset 0 0 0 2px #f59e0b;}
+.cal-cell.closed{background:repeating-linear-gradient(45deg,#f1f5f9,#f1f5f9 6px,#e2e8f0 6px,#e2e8f0 12px);}
+.cal-cell.absent{background:repeating-linear-gradient(45deg,#fef2f2,#fef2f2 6px,#fecaca 6px,#fecaca 12px);}
+.cal-day-head.closed{background:#e0e7ff;color:#475569;}
+/* Verplichte werkweek — geen economische werkloosheid mogelijk */
+.cal-day-head.mand{
+  border-top:3px solid #ea580c;
+  background:#fff7ed;
+  color:#7c2d12;
+}
+.cal-day-head.mand.we{background:#ffedd5;}
+.cal-day-head.mand-start{border-left:3px solid #ea580c;}
+.cal-mand-badge{
+  display:inline-block;background:#ea580c;color:#fff;
+  font-size:9px;font-weight:700;padding:1px 5px;border-radius:6px;
+  margin-top:2px;letter-spacing:.04em;
+}
+.cal-cell.drag-over{background:#bfdbfe !important;outline:2px dashed var(--primary);outline-offset:-2px;}
+.cap-bar-wrap{height:4px;background:#e5e7eb;border-radius:2px;margin-top:3px;}
+.cap-bar{height:4px;border-radius:2px;background:#059669;transition:width .2s;}
+.cap-bar.over{background:#dc2626;}
+
+/* Kalender blokken */
+.cal-block{
+  border-radius:4px;
+  padding:3px 5px;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:2px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:1px;
+  min-height:36px;
+  cursor:grab;
+  user-select:none;
+  box-shadow:0 1px 3px rgba(0,0,0,.25);
+  position:relative;
+  /* BELANGRIJK: kleur wordt via style.backgroundColor gezet, NIET via CSS var() */
+}
+.cal-block:active{cursor:grabbing;}
+.cal-block.dragging{opacity:.25;}
+.cal-block.voorlopig{
+  /* Visueel onderscheid voor voorlopige projecten:
+     - dikke gestreepte witte rand om duidelijk te tonen dat het tijdelijk is
+     - lichte opacity zodat de kleur subtieler is
+     - cursor blijft grab; alles werkt verder normaal */
+  outline: 2px dashed rgba(255,255,255,.85);
+  outline-offset: -3px;
+  opacity: 0.85;
+  background-image: repeating-linear-gradient(135deg, transparent 0 6px, rgba(255,255,255,.15) 6px 8px);
+}
+.blk-voorlopig-badge{
+  display:inline-block;
+  background:rgba(255,255,255,.92);
+  color:#92400e;
+  padding:0px 4px;
+  border-radius:3px;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.05em;
+  pointer-events:none;
+  margin-top:1px;
+  align-self:flex-start;
+}
+.blk-name{font-weight:700;font-size:11px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;}
+.blk-label{font-size:10px;font-weight:600;opacity:.92;line-height:1.15;pointer-events:none;}
+.blk-resize{
+  position:absolute;
+  right:4px;
+  bottom:2px;
+  cursor:ew-resize;
+  font-size:11px;
+  padding:0 1px;
+  opacity:.55;
+  line-height:1;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.blk-resize:hover{opacity:1;}
+.blk-remove{
+  position:absolute;
+  right:3px;
+  top:2px;
+  cursor:pointer;
+  font-size:11px;
+  opacity:.55;
+  padding:0 1px;
+  line-height:1;
+}
+.blk-remove:hover{opacity:1;}
+.blk-print-name{display:none;}
+body.is-resizing,.is-resizing *{cursor:ew-resize !important;user-select:none !important;}
+
+/* Pool */
+.pool-wrap{
+  /* OPGELET: display:block i.p.v. flex om iPad Safari layout-bug te vermijden.
+     Eerder gebruikte deze container display:flex; flex-wrap:wrap waardoor op
+     iPad Safari de project-groepen verkeerd berekend werden en chips visueel
+     afgekapt werden. Project-groepen stacken nu gewoon onder elkaar als blocks. */
+  display:block;
+  min-height:46px;
+  padding:8px;
+  border:2px dashed var(--border);
+  border-radius:8px;
+  margin-bottom:14px;
+  transition:background .15s;
+}
+.pool-wrap.drag-over{background:var(--accent);border-color:var(--primary);}
+.pool-chip{border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:grab;display:flex;align-items:center;gap:5px;box-shadow:0 1px 3px rgba(0,0,0,.15);transition:filter .15s;}
+.pool-chip:hover{filter:brightness(1.1);}
+.pool-chip.dragging{opacity:.25;}
+.pool-project-group{
+  background:#f8fafc;border:1px solid var(--border);border-radius:8px;
+  padding:8px 10px;margin-bottom:8px;
+  /* Volle breedte + geen clipping zodat alle chips zichtbaar zijn */
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+  /* Geen vaste hoogte — laat de groep groeien met z'n inhoud */
+  max-height: none;
+  min-height: 0;
+}
+.pool-project-header{
+  display:flex;align-items:center;gap:8px;margin-bottom:6px;
+}
+.pool-project-color{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.pool-project-name{font-weight:700;font-size:13px;color:#1f2937;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pool-project-prio{
+  font-size:10px;color:var(--muted);background:#fff;padding:2px 6px;border-radius:8px;
+  text-transform:uppercase;letter-spacing:.04em;font-weight:600;
+}
+.pool-fill-btn{
+  background:#10b981;color:#fff;border:none;padding:4px 10px;border-radius:5px;
+  cursor:pointer;font-size:11px;font-weight:600;transition:filter .15s;
+}
+.pool-fill-btn:hover{filter:brightness(1.1);}
+.pool-fill-disabled{
+  font-size:10px;color:var(--muted);font-style:italic;background:#f1f5f9;
+  padding:3px 8px;border-radius:5px;
+}
+.pool-chips-row{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  /* Geen vaste hoogte — chips kunnen vrij wrappen naar meerdere regels */
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+  align-items: flex-start;
+}
+
+/* Gantt */
+.gantt-wrap{overflow-x:auto;}
+.gantt-row{display:flex;align-items:stretch;border-bottom:1px solid #f0f0f0;min-height:52px;}
+.gantt-row:nth-child(even){background:var(--row-even);}
+.gantt-row.header-row{background:#f1f5f9;border-bottom:1px solid var(--border);min-height:36px;}
+.gantt-row.project-header{background:linear-gradient(90deg,#f1f5f9,#fff);border-top:2px solid var(--border);min-height:42px;}
+.gantt-name{min-width:200px;max-width:200px;padding:6px 12px;font-size:12px;font-weight:600;border-right:1px solid var(--border);display:flex;align-items:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;position:sticky;left:0;background:inherit;z-index:2;}
+.gantt-name.header{font-size:11px;color:var(--muted);background:#f1f5f9;}
+.gantt-area{flex:1;position:relative;overflow:hidden;}
+.gantt-bar{
+  position:absolute;
+  top:7px;
+  height:38px;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  padding:0 10px;
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  box-shadow:0 2px 5px rgba(0,0,0,.18);
+  cursor:default;
+  gap:6px;
+}
+.gantt-bar-step{font-weight:700;}
+.gantt-bar-hours{font-weight:500;opacity:.92;font-size:11.5px;}
+.gantt-today-line{position:absolute;top:0;bottom:0;width:2px;background:#dc2626;opacity:.5;pointer-events:none;z-index:1;}
+.gantt-dl-line{position:absolute;top:0;bottom:0;width:2px;background:#d97706;opacity:.6;pointer-events:none;}
+.gantt-day-tick{position:absolute;top:0;bottom:0;border-left:1px dashed #e2e8f0;pointer-events:none;}
+.gantt-day-label{position:absolute;top:4px;font-size:10px;color:var(--muted);white-space:nowrap;transform:translateX(-50%);}
+.gantt-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px;}
+.gantt-legend span{display:flex;align-items:center;gap:5px;}
+
+/* Print A3 — dedicated print view */
+#print-view {
+  display: none;
+}
+@media print {
+  @page { size: A3 landscape; margin: 6mm; }
+  body { background: #fff; margin: 0; padding: 0; }
+  /* Verberg ALLES op het scherm tijdens afdrukken */
+  body > *:not(#print-view) { display: none !important; }
+  /* En toon enkel onze toegewijde print-weergave */
+  #print-view { display: block !important; }
+}
+/* Style-tag dat dynamisch ingesteld wordt voor verschillende print-modi */
+#dynamic-print-page {}
+
+/* PRINT VIEW STYLING — gebruikt enkel tijdens window.print() */
+#print-view {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1f2937;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+/* Forceer kleuren-print voor ALLE elementen in print-view.
+   Sommige browsers verwijderen anders achtergrond-kleuren bij het printen.
+   Met deze regel blijven onze donkere tabel-headers, kleurige blokken
+   en alle achtergrond-kleuren intact. */
+#print-view * {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.pv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2.5px solid #1f2937;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+.pv-title-block { display:flex; flex-direction:column; gap:2px; }
+.pv-title { font-size: 20px; font-weight: 700; color:#1f2937; line-height:1.1; }
+.pv-subtitle { font-size: 14px; color: #6b7280; }
+.pv-meta { font-size: 10.5px; color: #6b7280; text-align: right; line-height:1.5;}
+.pv-meta strong { color: #1f2937; }
+
+.pv-grid {
+  display: grid;
+  border: 1.5px solid #1f2937;
+  background: #fff;
+  width: 100%;
+}
+.pv-corner {
+  background: #1f2937;
+  color: #fff;
+  padding: 6px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  border-right: 1px solid #4b5563;
+  border-bottom: 1.5px solid #1f2937;
+}
+.pv-day-head {
+  background: #f3f4f6;
+  border-right: 1px solid #d1d5db;
+  border-bottom: 1.5px solid #1f2937;
+  padding: 4px 2px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #374151;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.pv-day-head .pv-day-name { font-size:9px; color:#6b7280; text-transform:uppercase; letter-spacing:.04em; }
+.pv-day-head .pv-day-date { font-size:13px; font-weight:700; color:#111827; margin-top:1px; }
+.pv-day-head.closed { background:#e0e7ff; color:#3730a3; }
+.pv-day-head.closed .pv-day-date { color:#3730a3; }
+.pv-day-head.today { background:#fef3c7; }
+.pv-day-head.today .pv-day-date { color:#92400e; }
+.pv-wc-label {
+  background: #f9fafb;
+  border-right: 1px solid #1f2937;
+  border-bottom: 1px solid #d1d5db;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #1f2937;
+}
+.pv-wc-bar { width:4px; height:14px; border-radius:2px; flex-shrink:0; align-self:stretch; }
+.pv-cell {
+  border-right: 1px solid #d1d5db;
+  border-bottom: 1px solid #d1d5db;
+  padding: 1.5px;
+  background: #fff;
+  position: relative;
+  vertical-align: top;
+  font-size: 9px;
+  display:flex;
+  flex-direction:column;
+  gap:1.5px;
+}
+.pv-cell.closed {
+  background: repeating-linear-gradient(45deg,#eef2ff,#eef2ff 4px,#c7d2fe 4px,#c7d2fe 8px);
+}
+.pv-cell.today {
+  background: #fffbeb;
+  box-shadow: inset 0 0 0 2px #f59e0b;
+}
+.pv-cell.weekend {
+  background: #f9fafb;
+}
+.pv-block {
+  border-radius: 2.5px;
+  padding: 2px 4px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 9px;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pv-block .pv-block-name {
+  display:block;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.pv-block .pv-block-hours {
+  display:block;
+  font-weight:500;
+  font-size:8.5px;
+  opacity:.92;
+}
+.pv-closed-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: #4338ca;
+  font-weight: 600;
+  text-align: center;
+  padding: 4px;
+}
+.pv-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid #d1d5db;
+  font-size: 9px;
+  color: #4b5563;
+  gap: 6px;
+}
+.pv-legend { display:flex; flex-wrap:wrap; gap:5px 12px; width:100%; }
+.pv-legend-item { display:flex; align-items:center; gap:4px; font-size:9px; }
+.pv-legend-sq { width:9px; height:9px; border-radius:2px; flex-shrink:0; }
+.pv-legend-sq.closed-pattern { background: repeating-linear-gradient(45deg,#eef2ff,#eef2ff 3px,#c7d2fe 3px,#c7d2fe 6px); border:1px solid #c7d2fe;}
+.pv-legend-sq.today-marker { background:#fffbeb; box-shadow: inset 0 0 0 1.5px #f59e0b; }
+.pv-project-legend { font-size:8.5px; width:100%; column-count:4; column-gap:14px; }
+.pv-project-legend-title { font-weight:700; color:#1f2937; margin-bottom:3px; font-size:9.5px; column-span:all; -webkit-column-span:all; }
+.pv-project-legend .pv-legend-item { break-inside:avoid; -webkit-column-break-inside:avoid; page-break-inside:avoid; margin-bottom:2px; }
+/* Personeel-labels in print kalender */
+.pv-wc-label.subrow { border-top:1px dashed #e5e7eb; }
+.pv-wc-label-stack { display:flex; flex-direction:column; gap:1px; min-width:0; flex:1; }
+.pv-wc-name { font-size:9.5px; font-weight:700; color:#374151; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pv-person-line { display:flex; align-items:center; gap:3px; line-height:1.1; min-width:0; }
+.pv-person-name { font-size:9.5px; font-weight:600; color:#1f2937; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; }
+.pv-person-role { font-size:7px; padding:0 4px; border-radius:6px; font-weight:700; letter-spacing:.03em; flex-shrink:0; line-height:1.4; }
+.pv-person-role.lead { background:#3b82f6; color:#fff; }
+.pv-person-role.help { background:#94a3b8; color:#fff; }
+.pv-person-role.inval { background:#fbbf24; color:#78350f; }
+.pv-person-cap { font-size:8px; color:#6b7280; font-weight:500; line-height:1.1; }
+
+/* ═══════════════════════════════════════════════════════
+   PLAATSING PRINT (A4 portrait)
+   ═══════════════════════════════════════════════════════ */
+.pp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2.5px solid #1f2937;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+.pp-title { font-size: 20px; font-weight: 700; color:#1f2937; line-height:1.1; }
+.pp-subtitle { font-size: 13px; color: #6b7280; margin-top:2px; }
+.pp-meta { font-size: 10px; color: #6b7280; text-align: right; line-height:1.5;}
+.pp-meta strong { color: #1f2937; }
+.pp-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.pp-stats > div {
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.pp-stats > div strong { display:block; font-size:18px; color:#1f2937; line-height:1; }
+.pp-stats > div span { display:block; font-size:9px; color:#6b7280; margin-top:3px; text-transform:uppercase; letter-spacing:.04em;}
+.pp-table { width:100%; border-collapse:collapse; font-size:11px; }
+.pp-table thead tr {
+  background:#1f2937 !important;
+  color:#fff !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.pp-table th {
+  padding:6px 8px;
+  text-align:left;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-weight:700;
+  color:#fff !important;
+  background:#1f2937 !important;
+  border-bottom: 3px solid #0f172a;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.pp-table td { padding:5px 8px; border-bottom:1px solid #e5e7eb; }
+.pp-table tr:nth-child(even) td { background:#f9fafb; }
+.pp-table .pp-complete { color:#047857; font-weight:600; }
+.pp-table .pp-partial  { color:#d97706; font-weight:600; }
+.pp-table .pp-none     { color:#dc2626; font-weight:600; }
+.pp-color-dot { display:inline-block; width:8px; height:12px; border-radius:2px; margin-right:5px; vertical-align:middle; }
+
+/* ═══════════════════════════════════════════════════════
+   MAGAZIJN PRINT (A4 portrait)
+   ═══════════════════════════════════════════════════════ */
+.mp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2.5px solid #1f2937;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+.mp-title { font-size: 20px; font-weight: 700; color:#1f2937; line-height:1.1; }
+.mp-subtitle { font-size: 12px; color: #6b7280; margin-top:3px; }
+.mp-meta { font-size: 10px; color: #6b7280; text-align: right; line-height:1.5;}
+.mp-meta strong { color: #1f2937; }
+.mp-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.mp-stat {
+  border-radius: 6px;
+  padding: 7px 10px;
+  text-align: center;
+  border-left: 3px solid;
+}
+.mp-stat strong { display:block; font-size:18px; line-height:1; }
+.mp-stat span { display:block; font-size:9px; margin-top:3px; text-transform:uppercase; letter-spacing:.04em;}
+.mp-stat.mp-overdue { background:#fee2e2; color:#991b1b; border-left-color:#dc2626;}
+.mp-stat.mp-urgent  { background:#fef3c7; color:#92400e; border-left-color:#f59e0b;}
+.mp-stat.mp-soon    { background:#dbeafe; color:#1e40af; border-left-color:#3b82f6;}
+.mp-stat.mp-future  { background:#d1fae5; color:#047857; border-left-color:#10b981;}
+
+.mp-table { width:100%; border-collapse:collapse; font-size:10.5px; }
+.mp-table thead tr {
+  background:#1f2937 !important;
+  color:#fff !important;
+}
+.mp-table th {
+  padding:6px 7px;
+  text-align:left;
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-weight:700;
+  color:#fff !important;
+  background:#1f2937 !important;
+  border-bottom: 3px solid #0f172a;
+}
+.mp-table td { padding:5px 7px; border-bottom:1px solid #e5e7eb; vertical-align: middle;}
+.mp-table tr:nth-child(even) td { background:#f9fafb; }
+.mp-table tr.mp-row-overdue td { background:#fef2f2 !important;}
+.mp-table tr.mp-row-urgent td { background:#fffbeb !important;}
+.mp-table tr.mp-row-geenmaterial td { background:#f9fafb !important; color:#4b5563;}
+.mp-table tr.mp-row-geenmaterial em { font-style: italic; }
+.mp-table tr.mp-row-handled td {
+  background:#ecfdf5 !important;
+  color:#6b7280 !important;
+  text-decoration:line-through;
+  text-decoration-color:#9ca3af;
+}
+.mp-check-done {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#059669;
+  color:#fff !important;
+  font-weight:700;
+  text-decoration:none !important;
+  border-color:#059669 !important;
+}
+.mp-color-dot { display:inline-block; width:8px; height:12px; border-radius:2px; margin-right:5px; vertical-align:middle; }
+.mp-voorlopig {
+  display:inline-block;
+  background:#fef3c7;
+  color:#92400e;
+  border:1px dashed #f59e0b;
+  border-radius:3px;
+  padding:0 4px;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.mp-status {
+  display:inline-block;
+  padding:2px 7px;
+  border-radius:9px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.mp-status-overdue { background:#fecaca; color:#991b1b;}
+.mp-status-today   { background:#fecaca; color:#991b1b;}
+.mp-status-urgent  { background:#fde68a; color:#92400e;}
+.mp-status-soon    { background:#bfdbfe; color:#1e40af;}
+.mp-status-future  { background:#a7f3d0; color:#065f46;}
+.mp-check-box {
+  display: inline-block;
+  width: 22px;
+  height: 14px;
+  border: 1.5px solid #6b7280;
+  border-radius: 3px;
+  background: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GEDETAILLEERDE GANTT PRINT (A3 landscape)
+   ═══════════════════════════════════════════════════════ */
+.pg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2.5px solid #1f2937;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+.pg-project-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.1;
+  padding-left: 10px;
+}
+.pg-subtitle { font-size: 13px; color: #6b7280; margin-top:4px; padding-left:10px;}
+.pg-meta { font-size: 10.5px; color: #6b7280; text-align: right; line-height:1.6;}
+.pg-meta strong { color: #1f2937; }
+.pg-info-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.pg-info-box {
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 6px 12px;
+  border-left: 3px solid #3b82f6;
+}
+.pg-info-box.warn { border-left-color: #dc2626; background:#fef2f2; }
+.pg-info-box.pg-info-wide { flex: 1; }
+.pg-info-label { font-size: 9px; color:#6b7280; text-transform:uppercase; letter-spacing:.04em;}
+.pg-info-value { font-size: 13px; font-weight:700; color:#1f2937; margin-top:2px;}
+.pg-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 12px 0 6px 0;
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 3px;
+}
+.pg-grid {
+  display: grid;
+  border: 1.5px solid #1f2937;
+  background: #fff;
+}
+.pg-corner {
+  background: #1f2937 !important;
+  color: #fff !important;
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  border-bottom: 1.5px solid #1f2937;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.pg-day-head {
+  background: #f3f4f6;
+  border-right: 1px solid #d1d5db;
+  border-bottom: 1.5px solid #1f2937;
+  padding: 3px 2px;
+  text-align: center;
+  font-size: 9px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+.pg-day-head.closed { background:#e0e7ff; }
+.pg-day-head.today { background:#fef3c7; }
+.pg-day-head.placement { background:#fed7aa; }
+.pg-day-name { font-size:8px; color:#6b7280; text-transform:uppercase; letter-spacing:.04em;}
+.pg-day-date { font-size:11px; font-weight:700; color:#111827; margin-top:1px;}
+.pg-day-tag { font-size:7px; font-weight:700; margin-top:2px; padding:1px 3px; border-radius:3px;}
+.pg-placement-tag { background:#ea580c; color:#fff;}
+.pg-closed-tag { background:#a5b4fc; color:#3730a3;}
+.pg-today-tag { background:#f59e0b; color:#fff;}
+.pg-wc-label {
+  background: #f9fafb;
+  border-right: 1.5px solid #1f2937;
+  border-bottom: 1px solid #d1d5db;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+}
+.pg-wc-bar { width:5px; height:22px; border-radius:2px; flex-shrink:0; }
+.pg-wc-name { font-size:10.5px; font-weight:700; color:#1f2937; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.pg-wc-hours { font-size:9px; color:#6b7280; margin-top:2px;}
+.pg-cell {
+  border-right: 1px solid #d1d5db;
+  border-bottom: 1px solid #d1d5db;
+  padding: 2px;
+  background: #fff;
+  position: relative;
+  min-height: 32px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:center;
+}
+.pg-cell.closed { background: repeating-linear-gradient(45deg,#eef2ff,#eef2ff 3px,#c7d2fe 3px,#c7d2fe 6px); }
+.pg-cell.today  { background:#fffbeb; }
+.pg-cell.placement { background:#fff7ed; }
+.pg-bar {
+  border-radius: 3px;
+  padding: 3px 4px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.1;
+}
+.pg-bar-hrs { display:block; }
+.pg-bar-people {
+  font-size: 8px;
+  color: #4b5563;
+  margin-top: 1px;
+  text-align: center;
+  font-style: italic;
+}
+.pg-placement-marker {
+  font-size: 18px;
+  text-align: center;
+  line-height: 1;
+  color: #ea580c;
+}
+.pg-milestones {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px 12px;
+  margin-top: 6px;
+}
+.pg-milestone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: #f9fafb;
+  border-radius: 5px;
+  border-left: 3px solid transparent;
+}
+.pg-milestone-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;}
+.pg-milestone-info { flex:1; min-width:0; }
+.pg-milestone-name { font-size:11px; font-weight:700; color:#1f2937; line-height:1.2;}
+.pg-milestone-dates { font-size:9.5px; color:#6b7280; margin-top:1px;}
+.pg-milestone-placement {
+  background: #fff7ed;
+  border-left-color: #ea580c;
+  grid-column: span 3;
+  margin-top: 4px;
+}
+.pg-milestone-placement .pg-milestone-name { color:#9a3412;}
+
+/* A4-modus: compactere afmetingen om alles op één pagina te passen */
+.pg-root.pg-paper-a4 .pg-project-name { font-size: 17px; }
+.pg-root.pg-paper-a4 .pg-subtitle { font-size: 11px; }
+.pg-root.pg-paper-a4 .pg-info-box { padding: 4px 8px; }
+.pg-root.pg-paper-a4 .pg-info-label { font-size: 8px; }
+.pg-root.pg-paper-a4 .pg-info-value { font-size: 11px; }
+.pg-root.pg-paper-a4 .pg-section-title { font-size: 11px; margin: 8px 0 4px 0; }
+.pg-root.pg-paper-a4 .pg-corner { padding: 3px 5px; font-size: 8.5px; }
+.pg-root.pg-paper-a4 .pg-day-head { padding: 2px 1px; font-size: 7.5px; }
+.pg-root.pg-paper-a4 .pg-day-date { font-size: 9.5px; }
+.pg-root.pg-paper-a4 .pg-day-name { font-size: 7px; }
+.pg-root.pg-paper-a4 .pg-day-tag { font-size: 6px; }
+.pg-root.pg-paper-a4 .pg-placement-tag { font-size: 6px; padding: 1px 2px; }
+.pg-root.pg-paper-a4 .pg-wc-label { padding: 3px 5px; min-height: 26px; }
+.pg-root.pg-paper-a4 .pg-wc-bar { height: 18px; width: 4px; }
+.pg-root.pg-paper-a4 .pg-wc-name { font-size: 9.5px; }
+.pg-root.pg-paper-a4 .pg-wc-hours { font-size: 8px; }
+.pg-root.pg-paper-a4 .pg-cell { min-height: 26px; padding: 1.5px; }
+.pg-root.pg-paper-a4 .pg-bar { padding: 2px 3px; font-size: 9px; }
+.pg-root.pg-paper-a4 .pg-bar-people { font-size: 7px; }
+.pg-root.pg-paper-a4 .pg-milestone { padding: 4px 6px; }
+.pg-root.pg-paper-a4 .pg-milestone-name { font-size: 9.5px; }
+.pg-root.pg-paper-a4 .pg-milestone-dates { font-size: 8.5px; }
+.pg-root.pg-paper-a4 .pg-milestones { gap: 4px 8px; }
+</style>
+<style>
+/* ====== Plaatsing-app aanvullende stijl ====== */
+body{background:var(--bg);margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.modal-overlay.open{display:flex !important;}
+.drag-over{outline:2px dashed var(--primary);outline-offset:-2px;background:#eff6ff !important;}
+
+/* kalender-grid (zelfde maatvoering als productieplanning) */
+.cal-outer{overflow-x:auto;border:1px solid var(--border);border-radius:8px;background:#fff;}
+.pk-grid{display:grid;background:#fff;width:max-content;min-width:100%;}
+.cal-corner{background:#f1f5f9;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:6px 10px;font-size:11px;font-weight:700;color:#475569;position:sticky;left:0;top:0;z-index:5;width:170px;display:flex;align-items:center;}
+.cal-day-head{background:#f8fafc;border-right:1px solid #e5e7eb;border-bottom:1px solid var(--border);padding:5px 4px;text-align:center;font-size:11px;color:#475569;position:sticky;top:0;z-index:3;}
+.cal-day-head.we{background:#f1f5f9;color:#94a3b8;}
+.cal-day-head.td{background:#fff7ed;}
+.cal-wc-bar{width:4px;align-self:stretch;border-radius:3px;margin-right:7px;min-height:30px;}
+
+/* pool */
+.pk-pool-wrap{display:flex;flex-wrap:wrap;gap:8px;min-height:60px;padding:10px;background:#f8fafc;border:1px dashed var(--border);border-radius:8px;margin-bottom:12px;}
+.pk-pool-chip{background:#fff;border:1px solid var(--border);border-radius:8px;padding:7px 10px;cursor:grab;box-shadow:0 1px 3px rgba(0,0,0,.06);min-width:150px;}
+.pk-pool-chip:active{cursor:grabbing;}
+.pk-pool-name{font-size:12.5px;font-weight:700;color:#1f2937;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+.pk-pool-meta{font-size:10.5px;color:var(--muted);margin-top:2px;}
+
+/* blokken in de kalender */
+.pk-chip{display:flex;align-items:center;gap:4px;color:#fff;border-radius:6px;padding:3px 6px;margin-bottom:3px;font-size:11px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.15);overflow:hidden;}
+.pk-chip-cont{opacity:.78;}
+.pk-chip-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pk-grip{margin-left:auto;cursor:ew-resize;font-size:11px;line-height:1;opacity:.9;padding:0 1px 0 5px;flex:none;}
+.pk-grip:hover{opacity:1;transform:scale(1.2);}
+
+/* legende */
+.pk-legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px;}
+.pk-leg-item{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#374151;background:#fff;border:1px solid var(--border);border-radius:14px;padding:2px 9px;}
+.pk-leg-dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
+
+/* toast (val terug indien niet in hergebruikte stijl) */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1f2937;color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:3000;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+</style>
+</head>
+<body>
+<div class="app-header" style="background:linear-gradient(135deg,#1a56db,#7c3aed);color:#fff;padding:16px 22px;border-radius:0 0 14px 14px;margin-bottom:18px">
+  <h1 style="margin:0;font-size:20px;font-weight:800;letter-spacing:.2px">🚚 Plaatsing-planning</h1>
+  <div style="font-size:12.5px;opacity:.9;margin-top:2px">Plan de plaatsing van projecten per ploeg — gevoed door de productieplanning</div>
+</div>
+
+<div style="max-width:1500px;margin:0 auto;padding:0 16px 40px">
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="kalender" onclick="showTab('kalender')">📅 Plaatsing-kalender</button>
+  <button class="tab-btn" data-tab="beheer" onclick="showTab('beheer')">👷 Ploegen &amp; fases</button>
+  <button class="tab-btn" data-tab="import" onclick="showTab('import')">📥 Import &amp; data</button>
+</div>
+
+<!-- TAB: KALENDER -->
+<div id="tab-kalender" class="tab-content active">
+  <div class="card">
+    <h2>🚚 Plaatsing-kalender — plan projecten bij de plaatsingsploegen</h2>
+    <p class="info-text" style="margin-bottom:12px">
+      Projecten uit de productieplanning verschijnen in de pool, gesorteerd op wanneer ze klaar zijn
+      (eerste werkdag ná de laatste productie-dag). Sleep een project naar de juiste <strong>ploeg</strong> en <strong>dag</strong>.
+      Klik op een blok om de <strong>fase</strong>, de <strong>duur</strong> (werkdagen) of een notitie aan te passen.
+      Sleep het <strong>⇲</strong>-hoekje rechts op een blok naar een latere dag om de plaatsing over <strong>meerdere dagen</strong> uit te rekken.
+      Sleep een blok terug naar de pool om de plaatsing te annuleren.
+    </p>
+
+    <div class="cal-toolbar">
+      <div>
+        <label>Startweek</label>
+        <input type="date" id="pk-cal-start" style="width:150px">
+      </div>
+      <div>
+        <label>Weken tonen</label>
+        <select id="pk-cal-weeks" style="width:100px" onchange="buildPlaatsingKalender()">
+          <option value="2">2 weken</option>
+          <option value="4" selected>4 weken</option>
+          <option value="6">6 weken</option>
+          <option value="8">8 weken</option>
+          <option value="12">12 weken</option>
+          <option value="16">16 weken</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="buildPlaatsingKalender()" style="align-self:flex-end">🔄 Vernieuwen</button>
+      <button class="btn btn-secondary" onclick="pkAutoAsk()" style="align-self:flex-end;background:#8b5cf6;color:#fff;border-color:#8b5cf6" title="Plan alle openstaande projecten automatisch in op hun klaar-datum">⚡ Auto-inplannen</button>
+    </div>
+
+    <div id="pk-legend" class="pk-legend"></div>
+
+    <div style="display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap">
+      <strong style="font-size:13px">📦 Klaar voor plaatsing</strong>
+      <span id="pk-pool-count" style="color:var(--muted);font-size:12px"></span>
+      <span style="color:var(--muted);font-size:11px;font-style:italic">— sleep terug hierheen om een plaatsing te annuleren</span>
+    </div>
+
+    <div id="pk-pool-wrap" class="pk-pool-wrap"
+      ondragover="event.preventDefault();this.classList.add('drag-over')"
+      ondragleave="this.classList.remove('drag-over')"
+      ondrop="plaatsDropToPool(event)"></div>
+
+    <div class="cal-outer">
+      <div style="padding:6px 10px;background:#f8fafc;border-bottom:1px solid var(--border);color:var(--muted);font-size:11px;font-style:italic">
+        💡 Scroll links/rechts om meer dagen te zien · sleep een project naar een ploeg + dag
+      </div>
+      <div class="pk-grid" id="pk-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: PLOEGEN & FASES -->
+<div id="tab-beheer" class="tab-content">
+  <div class="card">
+    <h2>🚚 Plaatsingsploegen &amp; fases</h2>
+    <p class="info-text" style="margin-bottom:12px">
+      Beheer de ploegen die projecten op de werf plaatsen en de fases (interventietypes) die een plaatsing kan doorlopen.
+      Beide worden gebruikt in de <strong>📅 Plaatsing-kalender</strong>.
+    </p>
+
+    <h3 style="font-size:14px;font-weight:700;margin:6px 0 8px 0">👷 Ploegen</h3>
+    <div class="check-grid" style="grid-template-columns:2fr auto">
+      <div><label>Naam ploeg</label>
+        <input type="text" id="pk-ploeg-name" placeholder="Ploeg A — Peeters" onkeydown="if(event.key==='Enter')pkAddPloeg()">
+      </div>
+      <div style="align-self:end">
+        <button class="btn btn-primary" onclick="pkAddPloeg()" style="margin-top:2px">➕ Toevoegen</button>
+      </div>
+    </div>
+    <div id="pk-ploegen-list" style="margin-top:12px"></div>
+
+    <div class="sep"></div>
+
+    <h3 style="font-size:14px;font-weight:700;margin:6px 0 8px 0">🏷️ Fases <span style="font-size:11px;color:var(--muted);font-weight:400">(interventietypes — kleur &amp; icoon herkenbaar in de kalender)</span></h3>
+    <div class="check-grid" style="grid-template-columns:2fr 0.7fr 0.8fr auto">
+      <div><label>Label</label>
+        <input type="text" id="pk-fase-label" placeholder="Besproken met klant" onkeydown="if(event.key==='Enter')pkAddFase()">
+      </div>
+      <div><label>Icoon</label>
+        <input type="text" id="pk-fase-icon" placeholder="📞" maxlength="2" style="text-align:center">
+      </div>
+      <div><label>Kleur</label>
+        <input type="color" id="pk-fase-color" value="#3b82f6" style="width:100%;height:38px;padding:2px;border:1px solid var(--border);border-radius:6px;cursor:pointer">
+      </div>
+      <div style="align-self:end">
+        <button class="btn btn-primary" onclick="pkAddFase()" style="margin-top:2px">➕ Toevoegen</button>
+      </div>
+    </div>
+    <div id="pk-fases-list" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<!-- TAB: IMPORT -->
+<div id="tab-import" class="tab-content">
+  <div class="card">
+    <h2>📥 Productieplanning importeren</h2>
+    <p class="info-text" style="margin-bottom:12px">
+      Laad de gegevens uit de <strong>productieplanning</strong>. Exporteer daar een
+      <strong>planning-data.json</strong> (tablet-export) of een <strong>volledige backup</strong>,
+      en kies dat bestand hieronder. De projecten en hun productie-einddatum worden overgenomen,
+      zodat de pool weet wanneer elk project klaar is voor plaatsing.
+    </p>
+    <label class="btn btn-primary" style="cursor:pointer">📂 Kies bestand…
+      <input type="file" accept=".json,application/json" style="display:none" onchange="pkImportFile(this)">
+    </label>
+    <div id="imp-info" style="margin-top:16px;font-size:14px;line-height:1.5"></div>
+
+    <div class="sep"></div>
+    <p class="info-text" style="font-size:12px">
+      ℹ️ Deze app bewaart haar eigen gegevens (ploegen, fases, plaatsingen) los van de productieplanning.
+      Importeren overschrijft enkel de project-/planning-data, niet je ploegen of plaatsingen.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>💾 Back-up van deze plaatsing-app</h2>
+    <p class="info-text" style="margin-bottom:12px">
+      De opslag van deze app zit vast aan de bestandslocatie. Verplaats je <strong>plaatsing.html</strong> naar een
+      andere map, computer of tablet, dan komt je data niet automatisch mee. Exporteer hier <strong>alles</strong>
+      (ploegen, fases, plaatsingen én de geïmporteerde planning) naar één JSON-bestand, en herstel dat op de nieuwe locatie.
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="pkExportAll()">💾 Exporteer alles (back-up)</button>
+      <label class="btn btn-secondary" style="cursor:pointer">📂 Herstel uit back-up…
+        <input type="file" accept=".json,application/json" style="display:none" onchange="pkRestoreAll(this)">
+      </label>
+    </div>
+    <p class="info-text" style="font-size:12px;margin-top:12px">
+      ℹ️ Herstellen overschrijft de huidige gegevens in deze app. Bewaar het back-up-bestand op een veilige plek (bv. naast plaatsing.html op de netwerkdrive).
+    </p>
+  </div>
+</div>
+
+</div><!-- /max-width -->
+
+<!-- MODAL: Plaatsing bewerken -->
+<div class="modal-overlay" id="pk-edit-modal" onclick="if(event.target===this)pkCloseEdit()">
+  <div class="modal-box">
+    <h3 id="pk-edit-title">Plaatsing</h3>
+    <div id="pk-edit-info"></div>
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-size:12px;font-weight:600;margin-bottom:5px">Fase</label>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span id="pk-edit-fase"></span>
+        <button class="btn btn-secondary" onclick="pkEditChangeFase()" style="padding:4px 10px;font-size:12px">🏷️ Wijzig fase</button>
+      </div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-size:12px;font-weight:600;margin-bottom:5px">Duur (werkdagen)</label>
+      <input type="number" id="pk-edit-days" min="1" max="60" value="1" style="width:110px;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <span style="font-size:11px;color:var(--muted);margin-left:6px">volgende werkdagen worden ook gemarkeerd</span>
+    </div>
+    <div style="margin-bottom:18px">
+      <label style="display:block;font-size:12px;font-weight:600;margin-bottom:5px">Notitie</label>
+      <textarea id="pk-edit-note" rows="2" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;resize:vertical" placeholder="bv. klant belt nog over exact uur"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap">
+      <button class="btn btn-secondary" onclick="pkEditRemove()" style="color:var(--danger)">↩️ Terug naar pool</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="pkCloseEdit()">Annuleren</button>
+        <button class="btn btn-primary" onclick="pkEditSave()">💾 Opslaan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Fase kiezen -->
+<div class="modal-overlay" id="pk-fase-modal" onclick="if(event.target===this)pkCloseFaseModal()">
+  <div class="modal-box" style="width:360px">
+    <h3>🏷️ Kies fase</h3>
+    <div id="pk-fase-modal-body"></div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn btn-secondary" onclick="pkCloseFaseModal()">Annuleren</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Auto-inplannen — kies ploeg -->
+<div class="modal-overlay" id="pk-auto-modal" onclick="if(event.target===this)pkCloseAuto()">
+  <div class="modal-box" style="width:400px">
+    <h3>⚡ Automatisch inplannen</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Bij welke ploeg wil je de openstaande projecten inplannen?</p>
+    <div id="pk-auto-body"></div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn btn-secondary" onclick="pkCloseAuto()">Annuleren</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* ====== Plaatsing-app — losstaand, importeert productieplanning-data ====== */
+function $(id){return document.getElementById(id);}
+function uid(){return Math.random().toString(36).slice(2,10);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function pad(n){return String(n).padStart(2,'0');}
+function isoDate(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function parseISO(s){return new Date(s+'T00:00:00');}
+function fmtDay(s){var n=['zo','ma','di','wo','do','vr','za'];return n[parseISO(s).getDay()];}
+function fmtShort(s){var d=parseISO(s);return pad(d.getDate())+'/'+pad(d.getMonth()+1);}
+function fmtDate(s){if(!s)return '';var d=parseISO(s);return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();}
+function isWeekend(d){var g=d.getDay();return g===0||g===6;}
+function monday(d){var n=new Date(d);var g=(n.getDay()+6)%7;n.setDate(n.getDate()-g);n.setHours(0,0,0,0);return n;}
+
+function toast(msg,dur){var t=$('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},dur||2600);}
+
+/* ---------- data ---------- */
+var PLOEGEN=[], FASES=[], ASSIGN=[], IMP={proj:[],blk:[],closed:[],at:null};
+var PLOEG_COLORS=['#2563eb','#059669','#d97706','#7c3aed','#db2777','#0891b2','#dc2626','#65a30d'];
+
+function loadAll(){
+  try{PLOEGEN=JSON.parse(localStorage.getItem('plaats_ploegen'))||[];}catch(e){PLOEGEN=[];}
+  try{FASES=JSON.parse(localStorage.getItem('plaats_fases'))||[];}catch(e){FASES=[];}
+  try{ASSIGN=JSON.parse(localStorage.getItem('plaats_assign'))||[];}catch(e){ASSIGN=[];}
+  try{IMP=JSON.parse(localStorage.getItem('plaats_imported'))||{proj:[],blk:[],closed:[],at:null};}catch(e){IMP={proj:[],blk:[],closed:[],at:null};}
+  if(!IMP.proj)IMP.proj=[]; if(!IMP.blk)IMP.blk=[]; if(!IMP.closed)IMP.closed=[];
+  if(FASES.length===0){FASES=[{id:uid(),label:'Plaatsing',icon:'\uD83D\uDD27',color:'#3b82f6'}];saveFases();}
+}
+function savePloegen(){localStorage.setItem('plaats_ploegen',JSON.stringify(PLOEGEN));}
+function saveFases(){localStorage.setItem('plaats_fases',JSON.stringify(FASES));}
+function saveAssign(){localStorage.setItem('plaats_assign',JSON.stringify(ASSIGN));}
+function saveImported(){localStorage.setItem('plaats_imported',JSON.stringify(IMP));}
+
+/* ---------- werkdagen ---------- */
+function isClosed(ds){
+  var d=parseISO(ds);
+  if(isWeekend(d))return true;
+  for(var i=0;i<IMP.closed.length;i++){var c=IMP.closed[i];if(c&&c.from&&c.to&&ds>=c.from&&ds<=c.to)return true;}
+  return false;
+}
+function nextWorkday(ds){var d=parseISO(ds);var guard=0;do{d.setDate(d.getDate()+1);guard++;}while(isClosed(isoDate(d))&&guard<400);return isoDate(d);}
+function coverDays(startDs,days){
+  var out=[];var d=parseISO(startDs);var ds=startDs;var guard=0;
+  while(isClosed(ds)&&guard<400){d.setDate(d.getDate()+1);ds=isoDate(d);guard++;}
+  out.push(ds);
+  while(out.length<days&&guard<400){d.setDate(d.getDate()+1);ds=isoDate(d);guard++;if(!isClosed(ds))out.push(ds);}
+  return out;
+}
+function workdaysInclusive(a,b){if(b<a)return 1;var d=parseISO(a),ds=a,n=0,guard=0;while(ds<=b&&guard<800){if(!isClosed(ds))n++;d.setDate(d.getDate()+1);ds=isoDate(d);guard++;}return Math.max(1,n);}
+function productionEnd(projId){var end=null;IMP.blk.forEach(function(b){if(String(b.projectId)===String(projId)){if(!end||b.dateStr>end)end=b.dateStr;}});return end;}
+function placementReady(projId){var e=productionEnd(projId);return e?nextWorkday(e):null;}
+function projById(id){for(var i=0;i<IMP.proj.length;i++){if(String(IMP.proj[i].id)===String(id))return IMP.proj[i];}return null;}
+function projColor(p){return (p&&p.kleur)||'#1a56db';}
+function faseById(id){for(var i=0;i<FASES.length;i++){if(FASES[i].id===id)return FASES[i];}return FASES[0]||{label:'?',icon:'\uD83C\uDFF7\uFE0F',color:'#888'};}
+
+function snapProj(p){return p?{project:p.project,raam:p.raam,vleugel:p.vleugel,deur:p.deur,branddeur:p.branddeur,schuifraam:p.schuifraam,gordijngevel:p.gordijngevel,prioriteit:p.prioriteit,deadline:p.deadline,kleur:p.kleur,voorlopig:p.voorlopig}:null;}
+function projData(a){return projById(a.projectId)||a.proj||{};}
+function elemSummary(p){var x=[];if(p.raam)x.push('\uD83E\uDE9F'+p.raam);if(p.vleugel)x.push('\uD83D\uDD32'+p.vleugel);if(p.deur)x.push('\uD83D\uDEAA'+p.deur);if(p.branddeur)x.push('\uD83D\uDD25'+p.branddeur);if(p.schuifraam)x.push('\u2194\uFE0F'+p.schuifraam);if(p.gordijngevel)x.push('\uD83C\uDFDB\uFE0F'+p.gordijngevel);return x.join('  ');}
+function projInfoHtml(a){
+  var p=projData(a);var parts=[];var es=elemSummary(p);
+  parts.push('<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:14px;height:14px;border-radius:4px;flex:none;background:'+(p.kleur||'#1a56db')+'"></span><strong style="font-size:14px">'+esc(p.project||a.projectName||a.projectId)+'</strong>'+(p.voorlopig?' <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:700">VOORLOPIG</span>':'')+'</div>');
+  if(es)parts.push('<div style="font-size:13px;margin-bottom:4px">'+es+'</div>');
+  var meta=[];
+  if(p.prioriteit)meta.push('prio '+p.prioriteit);
+  if(p.deadline)meta.push('deadline '+fmtDate(p.deadline));
+  var pe=productionEnd(a.projectId);if(pe)meta.push('productie klaar '+fmtDate(pe));
+  var pr=placementReady(a.projectId);if(pr)meta.push('plaatsbaar vanaf '+fmtDate(pr));
+  if(meta.length)parts.push('<div style="font-size:11.5px;color:var(--muted)">'+meta.join('  \u00B7  ')+'</div>');
+  return '<div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:14px">'+parts.join('')+'</div>';
+}
+
+/* ---------- import ---------- */
+function pkImportFile(input){
+  var f=input.files&&input.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    try{
+      var parsed=JSON.parse(e.target.result);
+      var d=(parsed&&parsed.data&&parsed.type)?parsed.data:parsed;
+      var proj=d.alu_proj||d.proj||[];
+      var blk=d.alu_blk||d.blk||[];
+      var closed=d.alu_closed||d.closed||[];
+      if(!Array.isArray(proj)){toast('\u26A0\uFE0F Geen projecten gevonden in dit bestand');return;}
+      IMP={proj:proj,blk:Array.isArray(blk)?blk:[],closed:Array.isArray(closed)?closed:[],at:new Date().toISOString()};
+      saveImported();
+      var ids={};proj.forEach(function(p){ids[String(p.id)]=true;});
+      ASSIGN=ASSIGN.filter(function(a){return ids[String(a.projectId)];});saveAssign();
+      renderImportInfo();renderPool();buildPlaatsingKalender();
+      toast('\u2705 '+proj.length+' projecten ge\u00EFmporteerd');
+    }catch(err){toast('\u274C Geen geldig JSON-bestand');}
+  };
+  r.readAsText(f);input.value='';
+}
+function renderImportInfo(){
+  var el=$('imp-info');if(!el)return;
+  if(!IMP.at){el.innerHTML='<span style="color:var(--muted)">Nog niets ge\u00EFmporteerd. Exporteer in de productieplanning (\u201Cplanning-data.json\u201D of een volledige backup) en kies het bestand hierboven.</span>';return;}
+  var withEnd=IMP.proj.filter(function(p){return productionEnd(p.id);}).length;
+  el.innerHTML='<strong>'+IMP.proj.length+'</strong> projecten \u00B7 <strong>'+withEnd+'</strong> met productie-einddatum \u00B7 '+IMP.blk.length+' planning-blokken'+
+    '<br><span style="color:var(--muted);font-size:12px">Laatst ge\u00EFmporteerd: '+new Date(IMP.at).toLocaleString('nl-BE')+'</span>';
+}
+
+/* ---------- back-up: alles exporteren / herstellen ---------- */
+function pkExportAll(){
+  var payload={type:'plaatsing-planning-backup',version:1,exported:new Date().toISOString(),
+    data:{plaats_ploegen:PLOEGEN,plaats_fases:FASES,plaats_assign:ASSIGN,plaats_imported:IMP}};
+  var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);var n=new Date();
+  var fname='plaatsing-backup-'+n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate())+'_'+pad(n.getHours())+pad(n.getMinutes())+'.json';
+  var a=document.createElement('a');a.href=url;a.download=fname;
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},100);
+  toast('\uD83D\uDCBE Back-up gedownload: '+fname);
+}
+function pkRestoreAll(input){
+  var f=input.files&&input.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    try{
+      var parsed=JSON.parse(e.target.result);
+      var d=(parsed&&parsed.data)?parsed.data:parsed;
+      var pl=d.plaats_ploegen||d.ploegen, fa=d.plaats_fases||d.fases, as=d.plaats_assign||d.assign, im=d.plaats_imported||d.imported;
+      if(!pl&&!fa&&!as&&!im){toast('\u26A0\uFE0F Dit lijkt geen plaatsing-back-up');return;}
+      if(!confirm('Back-up herstellen? Dit overschrijft de huidige ploegen, fases, plaatsingen en ge\u00EFmporteerde planning in deze app.'))return;
+      if(Array.isArray(pl))PLOEGEN=pl;
+      if(Array.isArray(fa))FASES=fa;
+      if(Array.isArray(as))ASSIGN=as;
+      if(im&&typeof im==='object')IMP={proj:im.proj||[],blk:im.blk||[],closed:im.closed||[],at:im.at||null};
+      savePloegen();saveFases();saveAssign();saveImported();
+      renderPloegen();renderFases();renderLegend();renderImportInfo();renderPool();buildPlaatsingKalender();
+      toast('\u2705 Back-up hersteld');
+    }catch(err){toast('\u274C Geen geldig back-up-bestand');}
+  };
+  r.readAsText(f);input.value='';
+}
+
+/* ---------- ploegen ---------- */
+function pkAddPloeg(){
+  var n=$('pk-ploeg-name').value.trim();if(!n){toast('\u26A0\uFE0F Geef een naam');return;}
+  PLOEGEN.push({id:uid(),name:n,color:PLOEG_COLORS[PLOEGEN.length%PLOEG_COLORS.length]});
+  savePloegen();$('pk-ploeg-name').value='';renderPloegen();buildPlaatsingKalender();
+}
+function pkRemovePloeg(id){
+  if(ASSIGN.some(function(a){return a.ploegId===id;})){
+    if(!confirm('Deze ploeg heeft plaatsingen. Verwijderen en die plaatsingen terug naar de pool zetten?'))return;
+    ASSIGN=ASSIGN.filter(function(a){return a.ploegId!==id;});saveAssign();
+  }
+  PLOEGEN=PLOEGEN.filter(function(p){return p.id!==id;});savePloegen();renderPloegen();renderPool();buildPlaatsingKalender();
+}
+function renderPloegen(){
+  var el=$('pk-ploegen-list');if(!el)return;
+  if(!PLOEGEN.length){el.innerHTML='<p style="color:var(--muted);font-size:13px">Nog geen ploegen toegevoegd.</p>';return;}
+  el.innerHTML=PLOEGEN.map(function(p){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #eee">'+
+      '<span style="width:14px;height:14px;border-radius:4px;background:'+p.color+'"></span>'+
+      '<span style="flex:1;font-weight:600">'+esc(p.name)+'</span>'+
+      '<button class="btn btn-secondary" style="padding:3px 9px;font-size:11px" onclick="pkRemovePloeg(\''+p.id+'\')">\uD83D\uDDD1\uFE0F</button></div>';
+  }).join('');
+}
+
+/* ---------- fases ---------- */
+function pkAddFase(){
+  var l=$('pk-fase-label').value.trim();if(!l){toast('\u26A0\uFE0F Geef een label');return;}
+  var ic=$('pk-fase-icon').value.trim()||'\uD83C\uDFF7\uFE0F';
+  var col=$('pk-fase-color').value||'#3b82f6';
+  FASES.push({id:uid(),label:l,icon:ic,color:col});saveFases();
+  $('pk-fase-label').value='';$('pk-fase-icon').value='';renderFases();renderLegend();buildPlaatsingKalender();
+}
+function pkRemoveFase(id){
+  FASES=FASES.filter(function(f){return f.id!==id;});saveFases();
+  ASSIGN.forEach(function(a){if(a.faseId===id)a.faseId=(FASES[0]&&FASES[0].id)||null;});saveAssign();
+  renderFases();renderLegend();buildPlaatsingKalender();
+}
+function renderFases(){
+  var el=$('pk-fases-list');if(!el)return;
+  if(!FASES.length){el.innerHTML='<p style="color:var(--muted);font-size:13px">Nog geen fases.</p>';return;}
+  el.innerHTML=FASES.map(function(f){
+    return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #eee">'+
+      '<span style="width:26px;text-align:center;font-size:16px">'+esc(f.icon)+'</span>'+
+      '<span style="width:14px;height:14px;border-radius:4px;background:'+f.color+'"></span>'+
+      '<span style="flex:1;font-weight:600">'+esc(f.label)+'</span>'+
+      '<button class="btn btn-secondary" style="padding:3px 9px;font-size:11px" onclick="pkRemoveFase(\''+f.id+'\')">\uD83D\uDDD1\uFE0F</button></div>';
+  }).join('');
+}
+function renderLegend(){
+  var el=$('pk-legend');if(!el)return;
+  el.innerHTML=FASES.map(function(f){
+    return '<span class="pk-leg-item"><span class="pk-leg-dot" style="background:'+f.color+'"></span>'+esc(f.icon)+' '+esc(f.label)+'</span>';
+  }).join('');
+}
+
+/* ---------- pool ---------- */
+function isAssigned(projId){return ASSIGN.some(function(a){return String(a.projectId)===String(projId);});}
+function renderPool(){
+  var wrap=$('pk-pool-wrap');if(!wrap)return;
+  var pool=IMP.proj.filter(function(p){return !isAssigned(p.id);});
+  pool.sort(function(a,b){var ra=placementReady(a.id)||'9999-99-99';var rb=placementReady(b.id)||'9999-99-99';if(ra!==rb)return ra<rb?-1:1;return (a.project||'').localeCompare(b.project||'');});
+  var cnt=$('pk-pool-count');if(cnt)cnt.textContent=pool.length+' project'+(pool.length!==1?'en':'');
+  if(!pool.length){wrap.innerHTML='<div style="color:var(--muted);font-size:13px;padding:10px">Alle ge\u00EFmporteerde projecten zijn ingepland (of er is nog niets ge\u00EFmporteerd).</div>';return;}
+  wrap.innerHTML=pool.map(function(p){
+    var ready=placementReady(p.id);
+    var rtxt=ready?('klaar vanaf '+fmtDate(ready)):'productie nog niet ingepland';
+    var es=elemSummary(p);var dl=p.deadline?(' \u00B7 deadline '+fmtDate(p.deadline)):'';
+    return '<div class="pk-pool-chip" draggable="true" ondragstart="pkDragStart(event,\''+p.id+'\',null)" style="border-left:4px solid '+projColor(p)+'">'+
+      '<div class="pk-pool-name">'+esc(p.project||p.id)+'</div>'+
+      (es?'<div class="pk-pool-meta" style="color:#374151">'+es+'</div>':'')+
+      '<div class="pk-pool-meta">'+rtxt+dl+'</div></div>';
+  }).join('');
+}
+
+/* ---------- drag/drop ---------- */
+var DRAG=null;
+function pkDragStart(e,projId,assignId){DRAG={projId:projId,assignId:assignId};try{e.dataTransfer.setData('text/plain',assignId||projId||'');e.dataTransfer.effectAllowed='move';}catch(x){}}
+function pkDropToCell(e,ploegId,ds){
+  e.preventDefault();if(e.currentTarget)e.currentTarget.classList.remove('drag-over');
+  if(!DRAG)return;
+  if(ploegId==='__none'){toast('\u26A0\uFE0F Voeg eerst een ploeg toe');DRAG=null;return;}
+  if(isClosed(ds)){toast('\u26A0\uFE0F Gesloten dag / weekend');DRAG=null;return;}
+  if(DRAG.resizeId){
+    var ra=ASSIGN.filter(function(x){return x.id===DRAG.resizeId;})[0];
+    if(ra){
+      if(ploegId!==ra.ploegId){toast('\u2194\uFE0F Sleep het uiteinde binnen dezelfde ploeg-rij');DRAG=null;return;}
+      if(ds<ra.dateStr){toast('\u26A0\uFE0F Het einde moet op of n\u00E1 de startdag liggen');DRAG=null;return;}
+      ra.days=workdaysInclusive(ra.dateStr,ds);saveAssign();
+    }
+    DRAG=null;buildPlaatsingKalender();return;
+  }
+  if(DRAG.assignId){
+    var a=ASSIGN.filter(function(x){return x.id===DRAG.assignId;})[0];
+    if(a){a.ploegId=ploegId;a.dateStr=ds;saveAssign();}
+  }else if(DRAG.projId){
+    var p=projById(DRAG.projId);
+    ASSIGN.push({id:uid(),projectId:DRAG.projId,projectName:(p&&p.project)||DRAG.projId,ploegId:ploegId,dateStr:ds,days:1,faseId:(FASES[0]&&FASES[0].id)||null,note:'',proj:snapProj(p)});
+    saveAssign();
+  }
+  DRAG=null;renderPool();buildPlaatsingKalender();
+}
+function plaatsDropToPool(e){
+  e.preventDefault();var w=$('pk-pool-wrap');if(w)w.classList.remove('drag-over');
+  if(DRAG&&DRAG.assignId){ASSIGN=ASSIGN.filter(function(x){return x.id!==DRAG.assignId;});saveAssign();renderPool();buildPlaatsingKalender();}
+  DRAG=null;
+}
+
+/* ---------- kalender ---------- */
+function buildPlaatsingKalender(){
+  renderLegend();
+  var startEl=$('pk-cal-start');if(!startEl)return;
+  var sv=startEl.value;if(!sv){sv=isoDate(monday(new Date()));startEl.value=sv;}
+  var weeks=parseInt($('pk-cal-weeks').value)||4;
+  var start=monday(parseISO(sv));
+  var days=[];for(var w=0;w<weeks;w++){for(var dd=0;dd<5;dd++){var n=new Date(start);n.setDate(n.getDate()+w*7+dd);days.push(isoDate(n));}}
+  var grid=$('pk-grid');if(!grid)return;
+  grid.style.gridTemplateColumns='170px repeat('+days.length+',120px)';grid.innerHTML='';
+  var todayStr=isoDate(new Date());
+  var corner=document.createElement('div');corner.className='cal-corner';corner.textContent='Ploeg';grid.appendChild(corner);
+  days.forEach(function(ds){
+    var th=document.createElement('div');th.className='cal-day-head'+(isClosed(ds)?' we':'')+(ds===todayStr?' td':'');
+    th.innerHTML='<div>'+fmtDay(ds)+(ds===todayStr?' <span style="background:#f59e0b;color:#fff;padding:1px 5px;border-radius:8px;font-size:9px">VANDAAG</span>':'')+'</div><div style="font-weight:700;font-size:12px">'+fmtShort(ds)+'</div>';
+    grid.appendChild(th);
+  });
+  var cover={};
+  ASSIGN.forEach(function(a){var cov=coverDays(a.dateStr,a.days||1);cov.forEach(function(ds,idx){var k=a.ploegId+'|'+ds;(cover[k]=cover[k]||[]).push({a:a,first:idx===0,last:idx===cov.length-1});});});
+  var rows=PLOEGEN.length?PLOEGEN:[{id:'__none',name:'(nog geen ploegen \u2014 voeg toe bij \u201CPloegen & fases\u201D)',color:'#94a3b8'}];
+  rows.forEach(function(pl){
+    var lbl=document.createElement('div');lbl.className='cal-wc-label';
+    lbl.innerHTML='<div class="cal-wc-bar" style="background:'+pl.color+'"></div><div style="font-weight:700;font-size:12px;color:#1f2937;white-space:normal">'+esc(pl.name)+'</div>';
+    grid.appendChild(lbl);
+    days.forEach(function(ds){
+      var cell=document.createElement('div');cell.className='cal-cell'+(isClosed(ds)?' we':'')+(ds===todayStr?' td':'');
+      cell.ondragover=function(ev){ev.preventDefault();cell.classList.add('drag-over');};
+      cell.ondragleave=function(){cell.classList.remove('drag-over');};
+      (function(pid,dstr){cell.ondrop=function(ev){pkDropToCell(ev,pid,dstr);};})(pl.id,ds);
+      var here=cover[pl.id+'|'+ds]||[];
+      here.forEach(function(o){
+        var a=o.a;var f=faseById(a.faseId);
+        var chip=document.createElement('div');chip.className='pk-chip'+(o.first?'':' pk-chip-cont');
+        chip.style.background=f.color;
+        chip.draggable=true;
+        var _pd=projData(a),_es=elemSummary(_pd);
+        chip.title=(a.projectName||'')+(_pd.deadline?(' \u00B7 deadline '+fmtDate(_pd.deadline)):'')+' \u2014 '+f.label+(_es?(' \u00B7 '+_es):'')+(a.note?(' \u00B7 '+a.note):'');
+        chip.innerHTML='<span>'+esc(f.icon)+'</span><span class="pk-chip-name">'+esc(o.first?(a.projectName||a.projectId):'\u21B3')+'</span>';
+        (function(id){chip.ondragstart=function(ev){pkDragStart(ev,a.projectId,id);if(ev.stopPropagation)ev.stopPropagation();};chip.onclick=function(){pkOpenEdit(id);};})(a.id);
+        if(o.last){var grip=document.createElement('span');grip.className='pk-grip';grip.textContent='\u21F2';grip.draggable=true;grip.title='Sleep om de duur (werkdagen) te wijzigen';(function(id){grip.ondragstart=function(ev){DRAG={resizeId:id};try{ev.dataTransfer.setData('text/plain','resize');ev.dataTransfer.effectAllowed='move';}catch(x){}if(ev.stopPropagation)ev.stopPropagation();};grip.onclick=function(ev){if(ev.stopPropagation)ev.stopPropagation();};})(a.id);chip.appendChild(grip);}
+        cell.appendChild(chip);
+      });
+      grid.appendChild(cell);
+    });
+  });
+}
+
+/* ---------- bewerk-modal ---------- */
+var EDIT_ID=null;
+function pkOpenEdit(id){
+  EDIT_ID=id;var a=ASSIGN.filter(function(x){return x.id===id;})[0];if(!a)return;
+  $('pk-edit-title').textContent=a.projectName||a.projectId;
+  var infoEl=$('pk-edit-info');if(infoEl)infoEl.innerHTML=projInfoHtml(a);
+  $('pk-edit-days').value=a.days||1;$('pk-edit-note').value=a.note||'';
+  renderEditFase(a.faseId);
+  $('pk-edit-modal').classList.add('open');
+}
+function renderEditFase(fid){
+  var f=faseById(fid);
+  $('pk-edit-fase').innerHTML='<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:14px;background:'+f.color+';color:#fff;font-size:12px;font-weight:600">'+esc(f.icon)+' '+esc(f.label)+'</span>';
+  $('pk-edit-fase').dataset.fid=fid;
+}
+function pkCloseEdit(){$('pk-edit-modal').classList.remove('open');EDIT_ID=null;}
+function pkEditSave(){
+  var a=ASSIGN.filter(function(x){return x.id===EDIT_ID;})[0];if(!a){pkCloseEdit();return;}
+  a.days=Math.max(1,parseInt($('pk-edit-days').value)||1);
+  a.note=$('pk-edit-note').value;
+  a.faseId=$('pk-edit-fase').dataset.fid||a.faseId;
+  saveAssign();pkCloseEdit();buildPlaatsingKalender();
+}
+function pkEditRemove(){if(!EDIT_ID)return;ASSIGN=ASSIGN.filter(function(x){return x.id!==EDIT_ID;});saveAssign();pkCloseEdit();renderPool();buildPlaatsingKalender();}
+function pkEditChangeFase(){
+  var body=$('pk-fase-modal-body');
+  body.innerHTML=FASES.map(function(f){
+    return '<button class="btn btn-secondary" style="display:flex;width:100%;justify-content:flex-start;gap:8px;margin-bottom:6px;border-left:4px solid '+f.color+'" onclick="pkPickFase(\''+f.id+'\')">'+esc(f.icon)+' '+esc(f.label)+'</button>';
+  }).join('')||'<p style="color:var(--muted)">Nog geen fases. Voeg ze toe bij \u201CPloegen & fases\u201D.</p>';
+  $('pk-fase-modal').classList.add('open');
+}
+function pkPickFase(fid){renderEditFase(fid);pkCloseFaseModal();}
+function pkCloseFaseModal(){$('pk-fase-modal').classList.remove('open');}
+
+/* ---------- auto-inplannen ---------- */
+function pkAutoAsk(){
+  var pool=IMP.proj.filter(function(p){return !isAssigned(p.id);});
+  if(!pool.length){toast('\u2139\uFE0F Geen openstaande projecten in de pool');return;}
+  if(!PLOEGEN.length){toast('\u26A0\uFE0F Voeg eerst een ploeg toe');return;}
+  var body=$('pk-auto-body');
+  body.innerHTML='<p style="font-size:12.5px;color:#374151;margin-bottom:10px">'+pool.length+' project'+(pool.length!==1?'en':'')+
+    ' worden ingepland op hun klaar-datum (productie-einde + 1 werkdag), zonder dubbele boeking op dezelfde dag.</p>'+
+    PLOEGEN.map(function(p){
+      return '<button class="btn btn-secondary" style="display:flex;width:100%;justify-content:flex-start;gap:8px;margin-bottom:6px;border-left:4px solid '+p.color+'" onclick="pkAutoRun(\''+p.id+'\')">\uD83D\uDC77 '+esc(p.name)+'</button>';
+    }).join('')+
+    (PLOEGEN.length>1?'<button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="pkAutoRun(\'__all__\')">\u2696\uFE0F Verdeel over alle ploegen</button>':'');
+  $('pk-auto-modal').classList.add('open');
+}
+function pkCloseAuto(){$('pk-auto-modal').classList.remove('open');}
+function pkAutoRun(target){
+  pkCloseAuto();
+  var todayStr=isoDate(new Date());
+  var pool=IMP.proj.filter(function(p){return !isAssigned(p.id);});
+  function readyOf(p){var r=placementReady(p.id)||todayStr;return r<todayStr?todayStr:r;}
+  pool.sort(function(a,b){var ra=readyOf(a),rb=readyOf(b);if(ra!==rb)return ra<rb?-1:1;return (a.project||'').localeCompare(b.project||'');});
+  var occ={};PLOEGEN.forEach(function(p){occ[p.id]={};});
+  ASSIGN.forEach(function(a){if(occ[a.ploegId])coverDays(a.dateStr,a.days||1).forEach(function(ds){occ[a.ploegId][ds]=true;});});
+  var faseId=(FASES[0]&&FASES[0].id)||null;
+  var ploegIds=(target==='__all__')?PLOEGEN.map(function(p){return p.id;}):[target];
+  if(!ploegIds.length||!ploegIds[0]){toast('\u26A0\uFE0F Geen ploeg gekozen');return;}
+  var rr=0,placed=0;
+  pool.forEach(function(p){
+    var pid=ploegIds[rr%ploegIds.length];
+    var ds=readyOf(p),guard=0;
+    while(guard<800&&(isClosed(ds)||occ[pid][ds])){var d=parseISO(ds);d.setDate(d.getDate()+1);ds=isoDate(d);guard++;}
+    occ[pid][ds]=true;
+    ASSIGN.push({id:uid(),projectId:p.id,projectName:p.project||p.id,ploegId:pid,dateStr:ds,days:1,faseId:faseId,note:'',proj:snapProj(p)});
+    placed++;rr++;
+  });
+  saveAssign();renderPool();buildPlaatsingKalender();
+  toast('\u26A1 '+placed+' project'+(placed!==1?'en':'')+' automatisch ingepland');
+}
+
+/* ---------- tabs ---------- */
+function showTab(t){
+  ['kalender','beheer','import'].forEach(function(x){
+    var c=$('tab-'+x);if(c)c.classList.toggle('active',x===t);
+    var b=document.querySelector('.tab-btn[data-tab="'+x+'"]');if(b)b.classList.toggle('active',x===t);
+  });
+  if(t==='kalender')buildPlaatsingKalender();
+}
+
+/* ---------- init ---------- */
+loadAll();
+document.addEventListener('DOMContentLoaded',function(){
+  var s=$('pk-cal-start');if(s)s.value=isoDate(monday(new Date()));
+  renderPloegen();renderFases();renderLegend();renderImportInfo();renderPool();buildPlaatsingKalender();
+});
+
+</script>
+</body>
+</html>

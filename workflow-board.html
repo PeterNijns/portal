@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Board</title>
+<style>
+  :root {
+    --bg: #f7f4ec;
+    --bg-2: #efeadc;
+    --panel: #ffffff;
+    --panel-2: #faf6ea;
+    --line: #d9d1bd;
+    --ink: #2a261e;
+    --ink-2: #5e574a;
+    --ink-3: #918874;
+    --accent: #a37820;
+    --accent-2: #b88a2c;
+    --red: #b13a30;
+    --green: #5a7d3f;
+    --blue: #426b86;
+    --shadow: 0 1px 0 rgba(0,0,0,0.02) inset, 0 8px 20px -10px rgba(60,50,30,0.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 500; }
+
+  /* ------------ APP SHELL ------------ */
+  .app { display: flex; flex-direction: column; height: 100vh; }
+  .topbar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .brand-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .brand-sub {
+    color: var(--ink-3);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    padding: 8px 14px;
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.12s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { background: var(--bg-2); border-color: var(--ink-3); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+  .btn-danger { color: var(--red); border-color: rgba(177, 58, 48, 0.3); }
+  .btn-danger:hover { background: rgba(177, 58, 48, 0.08); border-color: var(--red); }
+  .btn-ghost { background: transparent; border-color: transparent; }
+  .btn-ghost:hover { background: var(--bg-2); border-color: var(--line); }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* ------------ SETUP SCREEN ------------ */
+  .setup {
+    flex: 1;
+    overflow: auto;
+    padding: 40px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .setup-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px 36px;
+    width: 100%;
+    max-width: 640px;
+    box-shadow: var(--shadow);
+  }
+  .setup-card h2 { font-size: 24px; margin: 0 0 6px; }
+  .setup-card .lead {
+    color: var(--ink-3);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .setup-section { margin-bottom: 26px; }
+  .setup-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .count-buttons {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .count-btn {
+    aspect-ratio: 1;
+    background: var(--panel);
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.12s;
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  .count-btn:hover { border-color: var(--accent); color: var(--ink); }
+  .count-btn.selected {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .step-input-list { display: flex; flex-direction: column; gap: 10px; }
+  .step-input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .step-chip {
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .step-input {
+    flex: 1;
+    padding: 9px 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.12s;
+  }
+  .step-input:focus { border-color: var(--accent); background: var(--panel); }
+  .setup-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 26px; }
+  .setup-hint {
+    background: var(--panel-2);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin-bottom: 18px;
+  }
+  .setup-hint strong { color: var(--ink); }
+
+  /* ------------ BOARD ------------ */
+  .board {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    overflow: hidden;
+  }
+
+  /* INBOX (left side) — project list */
+  .inbox {
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .inbox-head {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .inbox-head h3 { margin: 0 0 4px; font-size: 16px; }
+  .inbox-meta {
+    color: var(--ink-3);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .inbox-droparea {
+    margin: 12px 18px;
+    border: 2px dashed var(--line);
+    border-radius: 10px;
+    padding: 20px 14px;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--bg);
+  }
+  .inbox-droparea:hover, .inbox-droparea.dragging-over {
+    border-color: var(--accent);
+    background: rgba(212, 174, 94, 0.08);
+    color: var(--accent);
+  }
+  .inbox-droparea svg { width: 24px; height: 24px; display: block; margin: 0 auto 6px; opacity: 0.6; }
+  .inbox-droparea strong { color: var(--ink-2); display: block; margin-bottom: 2px; }
+
+  .inbox-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 12px 16px;
+  }
+  .inbox-empty {
+    padding: 24px 12px;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  /* Project card */
+  .project-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    cursor: grab;
+    transition: all 0.12s;
+    user-select: none;
+    position: relative;
+  }
+  .project-card:hover {
+    border-color: var(--ink-3);
+    background: var(--panel-2);
+    transform: translateX(2px);
+  }
+  .project-card:active, .project-card.dragging {
+    cursor: grabbing;
+    opacity: 0.5;
+    transform: scale(0.97);
+  }
+  .project-card-name {
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 22px;
+  }
+  .project-card-meta {
+    color: var(--ink-3);
+    font-size: 10.5px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 2px;
+    display: flex;
+    gap: 8px;
+  }
+  .project-card-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--ink-3);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .project-card:hover .project-card-remove { opacity: 1; }
+  .project-card-remove:hover { background: rgba(177, 58, 48, 0.12); color: var(--red); }
+
+  /* BOXES (right side) */
+  .boxes {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 18px 18px;
+    display: flex;
+    gap: 16px;
+  }
+  .box {
+    flex: 0 0 280px;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border: 2px solid;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .box.dragging-over {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -8px rgba(60, 50, 30, 0.25);
+  }
+  .box.full {
+    opacity: 0.65;
+  }
+  .box-head {
+    padding: 12px 14px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .box-head-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .box-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .box-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .box-counter.warn { background: rgba(255, 255, 255, 0.85); color: var(--red); }
+  .box-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 4px;
+    word-break: break-word;
+  }
+
+  .box-body {
+    flex: 1;
+    padding: 10px 12px;
+    overflow-y: auto;
+    background: var(--panel);
+  }
+  .box-empty {
+    padding: 28px 12px;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 12px;
+    font-style: italic;
+    border: 2px dashed transparent;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+  .box.dragging-over .box-empty {
+    border-color: currentColor;
+    color: var(--ink-2);
+    background: var(--bg-2);
+  }
+  .box.dragging-over .box-body { background: var(--bg-2); }
+
+  /* Color schemes for boxes — 8 distinct colors, warm-to-cool sequence */
+  .box.color-1 { border-color: #c0392b; }
+  .box.color-1 .box-head { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  .box.color-2 { border-color: #d68910; }
+  .box.color-2 .box-head { background: linear-gradient(135deg, #f39c12, #d68910); }
+  .box.color-3 { border-color: #b7950b; }
+  .box.color-3 .box-head { background: linear-gradient(135deg, #d4ac0d, #b7950b); }
+  .box.color-4 { border-color: #1e8449; }
+  .box.color-4 .box-head { background: linear-gradient(135deg, #27ae60, #1e8449); }
+  .box.color-5 { border-color: #117a65; }
+  .box.color-5 .box-head { background: linear-gradient(135deg, #16a085, #117a65); }
+  .box.color-6 { border-color: #1f618d; }
+  .box.color-6 .box-head { background: linear-gradient(135deg, #2980b9, #1f618d); }
+  .box.color-7 { border-color: #5b2c6f; }
+  .box.color-7 .box-head { background: linear-gradient(135deg, #8e44ad, #5b2c6f); }
+  .box.color-8 { border-color: #4a235a; }
+  .box.color-8 .box-head { background: linear-gradient(135deg, #6c3483, #4a235a); }
+
+  /* ------------ TOASTS ------------ */
+  .toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+  }
+  .toast {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    padding: 10px 16px;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(60, 50, 30, 0.15);
+    font-size: 13px;
+    min-width: 240px;
+    animation: slideIn 0.2s ease;
+  }
+  .toast.error { border-left-color: var(--red); }
+  .toast.success { border-left-color: var(--green); }
+  @keyframes slideIn {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  /* ------------ MODAL ------------ */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 30, 20, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 30px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  }
+  .modal h3 { margin: 0 0 8px; font-size: 18px; }
+  .modal p { color: var(--ink-2); font-size: 13.5px; margin: 0 0 18px; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+  /* ------------ DETAIL POPOVER ------------ */
+  .detail-modal { max-width: 520px; }
+  .detail-field { margin-bottom: 14px; }
+  .detail-field label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .detail-field input, .detail-field textarea {
+    width: 100%;
+    padding: 8px 10px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.12s;
+  }
+  .detail-field textarea { resize: vertical; min-height: 70px; }
+  .detail-field input:focus, .detail-field textarea:focus { border-color: var(--accent); background: var(--panel); }
+  .detail-history {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .history-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 11.5px;
+    color: var(--ink-2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .history-row .from-to {
+    color: var(--ink-3);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+  /* ------------ DEBUG PANEL ------------ */
+  #debug-panel {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    width: 380px;
+    max-height: 280px;
+    background: rgba(20, 18, 14, 0.95);
+    color: #d4ae5e;
+    border: 1px solid #3a342a;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    font-size: 10.5px;
+    z-index: 1500;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  }
+  #debug-panel.visible { display: flex; }
+  .debug-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: #2a261e;
+    border-bottom: 1px solid #3a342a;
+    font-size: 11px;
+  }
+  .debug-head button {
+    background: transparent;
+    border: none;
+    color: #d4ae5e;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 5px;
+  }
+  .debug-head button:hover { color: white; }
+  .debug-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 10px;
+    line-height: 1.5;
+    color: #ece4d3;
+  }
+  .debug-body div { white-space: pre-wrap; word-break: break-word; }
+  .debug-foot {
+    padding: 4px 10px;
+    border-top: 1px solid #3a342a;
+    color: #6a6253;
+    font-size: 9.5px;
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <div>
+        <span class="brand-name">Workflow Board</span>
+        <span class="brand-sub" id="brand-sub">SETUP</span>
+      </div>
+    </div>
+    <div class="topbar-actions" id="topbar-actions"></div>
+  </div>
+  <div id="main"></div>
+</div>
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+/* =====================================================================
+   WORKFLOW BOARD
+   Drag-and-drop step tracker for project files.
+
+   1. Setup: choose 2–8 steps, name each one.
+   2. Board: drag files/folders from your computer into the Inbox.
+      Each file becomes a project card. Drag cards into colored step
+      boxes to advance them through your workflow.
+
+   Storage: localStorage only. Files themselves are NOT stored — we
+   keep the file name + size + lastModified as a project label. Re-drop
+   the same file later to update.
+   ===================================================================== */
+
+const STORAGE_KEY = 'workflow_board_v1';
+const MAX_PER_BOX = 50;
+const STEP_COLOR_COUNT = 8;
+
+const DEFAULT_STATE = {
+  setupDone: false,
+  steps: [],          // [{ id, name }]
+  projects: [],       // [{ id, name, size?, lastModified?, addedAt, location, notes?, history: [{at, from, to}] }]
+                      // location: 'inbox' | step.id
+};
+
+let STATE = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return { ...DEFAULT_STATE, ...parsed };
+    }
+  } catch (e) { console.warn('load failed', e); }
+  return { ...DEFAULT_STATE };
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE));
+  } catch (e) {
+    toast('Could not save: ' + (e.message || 'storage full'), 'error');
+  }
+}
+
+function uid() { return Math.random().toString(36).slice(2, 10); }
+
+function toast(msg, kind = 'success') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast ' + kind;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function fmtBytes(b) {
+  if (!b) return '';
+  if (b < 1024) return b + ' B';
+  if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+  return (b / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+/* ============================================================
+   SETUP SCREEN
+   ============================================================ */
+function renderSetup() {
+  document.getElementById('brand-sub').textContent = 'SETUP';
+  document.getElementById('topbar-actions').innerHTML = STATE.projects.length || STATE.steps.length
+    ? `<button class="btn btn-ghost" id="setup-cancel">Cancel</button>` : '';
+  const stepCount = STATE.__pendingStepCount || STATE.steps.length || 3;
+  const stepNames = STATE.__pendingStepNames
+    || (STATE.steps.length ? STATE.steps.map(s => s.name)
+        : Array(stepCount).fill('').map((_, i) => ({ 0: 'Quotation', 1: 'Order confirmed', 2: 'Invoiced' })[i] || ''));
+
+  document.getElementById('main').innerHTML = `
+    <div class="setup">
+      <div class="setup-card">
+        <h2>${STATE.steps.length ? 'Edit workflow steps' : 'Set up your workflow'}</h2>
+        <div class="lead">${STATE.steps.length
+          ? 'Change the number of steps or rename them. Existing projects keep their position when possible.'
+          : 'Define the stages your projects move through. Drag projects through them in order.'}
+        </div>
+
+        <div class="setup-hint">
+          <strong>Example:</strong> For a sales workflow, you might use three steps:
+          <em>Quotation</em> → <em>Order confirmed</em> → <em>Invoiced</em>. Pick any wording that fits how you work.
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-title">How many steps?</div>
+          <div class="count-buttons" id="count-buttons">
+            ${[2,3,4,5,6,7,8].map(n => `
+              <button class="count-btn ${n === stepCount ? 'selected' : ''}" data-n="${n}">${n}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-title">Step descriptions</div>
+          <div class="step-input-list" id="step-input-list">
+            ${stepNames.slice(0, stepCount).map((name, i) => `
+              <div class="step-input-row">
+                <div class="step-chip" style="background:${colorForStep(i)}">${i + 1}</div>
+                <input class="step-input" data-i="${i}" value="${escapeHtml(name)}" placeholder="Step ${i + 1} description (e.g. ${exampleFor(i)})" />
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="setup-actions">
+          <button class="btn btn-primary" id="setup-save">${STATE.steps.length ? 'Save changes' : 'Create board'}</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Wire up
+  document.querySelectorAll('#count-buttons .count-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const n = parseInt(btn.dataset.n);
+      // Preserve typed names
+      const names = readStepInputs();
+      STATE.__pendingStepCount = n;
+      STATE.__pendingStepNames = names.concat(Array(Math.max(0, n - names.length)).fill(''));
+      renderSetup();
+    });
+  });
+
+  document.getElementById('setup-save').addEventListener('click', () => {
+    const names = readStepInputs();
+    const empty = names.findIndex(n => !n.trim());
+    if (empty !== -1) {
+      toast(`Please name step ${empty + 1}`, 'error');
+      document.querySelector(`.step-input[data-i="${empty}"]`).focus();
+      return;
+    }
+    // Build new steps. Preserve existing IDs by index where possible so projects don't lose location.
+    const oldSteps = STATE.steps;
+    const newSteps = names.map((name, i) => ({
+      id: (oldSteps[i] && oldSteps[i].id) || ('s_' + uid()),
+      name: name.trim(),
+    }));
+    // If shrinking, any project sitting in a deleted step falls back to the last step.
+    if (oldSteps.length > newSteps.length) {
+      const removedIds = new Set(oldSteps.slice(newSteps.length).map(s => s.id));
+      const lastId = newSteps[newSteps.length - 1].id;
+      let moved = 0;
+      for (const p of STATE.projects) {
+        if (removedIds.has(p.location)) {
+          p.history = p.history || [];
+          p.history.push({ at: new Date().toISOString(), from: p.location, to: lastId, reason: 'step removed' });
+          p.location = lastId;
+          moved++;
+        }
+      }
+      if (moved) toast(`Moved ${moved} project${moved === 1 ? '' : 's'} to the last step (their step was removed)`, 'success');
+    }
+    STATE.steps = newSteps;
+    STATE.setupDone = true;
+    delete STATE.__pendingStepCount;
+    delete STATE.__pendingStepNames;
+    saveState();
+    renderBoard();
+  });
+
+  const cancelBtn = document.getElementById('setup-cancel');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      delete STATE.__pendingStepCount;
+      delete STATE.__pendingStepNames;
+      renderBoard();
+    });
+  }
+
+  // Auto-focus first empty input
+  const firstEmpty = document.querySelectorAll('.step-input');
+  for (const inp of firstEmpty) {
+    if (!inp.value) { inp.focus(); break; }
+  }
+}
+
+function readStepInputs() {
+  return Array.from(document.querySelectorAll('.step-input')).map(i => i.value);
+}
+
+function colorForStep(idx) {
+  const colors = ['#c0392b', '#d68910', '#b7950b', '#1e8449', '#117a65', '#1f618d', '#5b2c6f', '#4a235a'];
+  return colors[idx % colors.length];
+}
+
+function exampleFor(idx) {
+  const examples = ['Quotation', 'Order confirmed', 'Invoiced', 'Delivered', 'Approved', 'Archived', 'Review', 'Done'];
+  return examples[idx % examples.length];
+}
+
+/* ============================================================
+   BOARD SCREEN
+   ============================================================ */
+function renderBoard() {
+  if (!STATE.setupDone || STATE.steps.length === 0) {
+    renderSetup();
+    return;
+  }
+  document.getElementById('brand-sub').textContent = `${STATE.steps.length} STEPS · ${STATE.projects.length} PROJECT${STATE.projects.length === 1 ? '' : 'S'}`;
+  document.getElementById('topbar-actions').innerHTML = `
+    <button class="btn btn-ghost" id="reconfig-btn" title="Change step count or names">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Steps
+    </button>
+    <button class="btn btn-danger btn-ghost" id="reset-btn" title="Clear everything">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+    </button>
+  `;
+
+  const inboxProjects = STATE.projects.filter(p => p.location === 'inbox');
+
+  document.getElementById('main').innerHTML = `
+    <div class="board">
+      <div class="inbox">
+        <div class="inbox-head">
+          <h3>Inbox</h3>
+          <div class="inbox-meta">${inboxProjects.length} unassigned · ${STATE.projects.length} total</div>
+        </div>
+        <div class="inbox-droparea" id="inbox-droparea">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <strong>Drop files or folders here</strong>
+          Or <span style="color:var(--accent);text-decoration:underline">click to browse</span>
+        </div>
+        <div class="inbox-list" id="inbox-list" data-location="inbox">
+          ${inboxProjects.length === 0
+            ? `<div class="inbox-empty">No projects yet.<br>Drop files to start.</div>`
+            : inboxProjects.map(p => projectCardHtml(p)).join('')
+          }
+        </div>
+      </div>
+
+      <div class="boxes" id="boxes">
+        ${STATE.steps.map((step, idx) => {
+          const stepProjects = STATE.projects.filter(p => p.location === step.id);
+          const isFull = stepProjects.length >= MAX_PER_BOX;
+          return `
+            <div class="box color-${(idx % STEP_COLOR_COUNT) + 1} ${isFull ? 'full' : ''}" data-step-id="${step.id}">
+              <div class="box-head">
+                <div class="box-head-row">
+                  <span class="box-step">Step ${idx + 1}</span>
+                  <span class="box-counter ${isFull ? 'warn' : ''}">${stepProjects.length} / ${MAX_PER_BOX}</span>
+                </div>
+                <div class="box-title">${escapeHtml(step.name)}</div>
+              </div>
+              <div class="box-body" data-location="${step.id}">
+                ${stepProjects.length === 0
+                  ? `<div class="box-empty">Drag projects here</div>`
+                  : stepProjects.map(p => projectCardHtml(p)).join('')
+                }
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  attachBoardHandlers();
+}
+
+function projectCardHtml(p) {
+  return `
+    <div class="project-card" draggable="true" data-id="${p.id}">
+      <div class="project-card-name" title="${escapeHtml(p.name)}">${escapeHtml(p.name)}</div>
+      <div class="project-card-meta">
+        ${p.size ? `<span>${fmtBytes(p.size)}</span>` : ''}
+        <span>${fmtDate(p.addedAt).split(' ')[0]}</span>
+        ${p.notes ? `<span title="${escapeHtml(p.notes)}">📝</span>` : ''}
+      </div>
+      <button class="project-card-remove" data-id="${p.id}" title="Remove project">×</button>
+    </div>
+  `;
+}
+
+/* ============================================================
+   BOARD HANDLERS — drag-and-drop and clicks
+   ============================================================ */
+function attachBoardHandlers() {
+  // Reconfigure
+  document.getElementById('reconfig-btn').addEventListener('click', () => renderSetup());
+  document.getElementById('reset-btn').addEventListener('click', confirmReset);
+
+  // ------------------------------------------------------------------------
+  // FILE DROPS — uses a window-level overlay that appears whenever files are
+  // dragged anywhere over the window. The overlay covers the entire viewport
+  // so the drop target is impossible to miss. Drops anywhere on the overlay
+  // route files to addFilesAsProjects().
+  //
+  // PROJECT CARD MOVES — separate handlers on cards (dragstart) and boxes
+  // (dragover/drop). These are isolated from file drops by checking
+  // draggedId at drop time.
+  // ------------------------------------------------------------------------
+
+  // === Project card drag-and-drop ===
+  let draggedId = null;
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('dragstart', e => {
+      draggedId = card.dataset.id;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', card.dataset.id);
+      dbg('dragstart card ' + draggedId);
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      document.querySelectorAll('.dragging-over').forEach(el => el.classList.remove('dragging-over'));
+    });
+    card.addEventListener('click', e => {
+      if (e.target.classList.contains('project-card-remove')) return;
+      openProjectDetail(card.dataset.id);
+    });
+  });
+
+  document.querySelectorAll('.project-card-remove').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      removeProject(btn.dataset.id);
+    });
+  });
+
+  // Drop zones for project cards: inbox list and every box
+  const cardDropZones = [
+    { el: document.getElementById('inbox-list'), location: 'inbox', highlightEl: document.querySelector('.inbox') },
+    ...Array.from(document.querySelectorAll('.box')).map(box => ({
+      el: box, location: box.dataset.stepId, highlightEl: box
+    }))
+  ];
+  cardDropZones.forEach(({ el, location, highlightEl }) => {
+    el.addEventListener('dragover', e => {
+      if (!draggedId) return; // Let file drops bubble to window handler
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      highlightEl.classList.add('dragging-over');
+    });
+    el.addEventListener('dragleave', e => {
+      if (!highlightEl.contains(e.relatedTarget)) highlightEl.classList.remove('dragging-over');
+    });
+    el.addEventListener('drop', e => {
+      if (!draggedId) return;
+      e.preventDefault();
+      e.stopPropagation(); // Don't let file-drop handler also fire
+      highlightEl.classList.remove('dragging-over');
+      moveProject(draggedId, location);
+      draggedId = null;
+    });
+  });
+
+  // Click on the visible "drop area" to open file picker (browse fallback)
+  document.getElementById('inbox-droparea').addEventListener('click', () => pickFiles());
+}
+
+// ============================================================================
+// FILE DROP HANDLING
+//
+// We use window-level event listeners for the actual drop logic. This is
+// necessary because the HTML5 drag-and-drop spec requires preventDefault on
+// dragover EVERYWHERE the user might release, or the browser refuses the drop
+// and opens the file as a new page. Attaching only to a specific element is
+// fragile — events bubble unpredictably depending on what's underneath.
+//
+// Visually, we only highlight the contained inbox drop area (no full-screen
+// takeover). The user still drops anywhere on the window — the highlight is
+// just a hint.
+// ============================================================================
+let fileDragDepth = 0; // dragenter/leave counter — important since they bubble
+
+function setupFileDropOverlay() {
+  // No full-screen overlay; just a discreet visual hint via the existing
+  // .inbox-droparea element when files are being dragged anywhere on window.
+
+  window.addEventListener('dragenter', e => {
+    if (!isFileDrag(e)) return;
+    e.preventDefault();
+    fileDragDepth++;
+    highlightDropZones(true);
+  });
+  window.addEventListener('dragover', e => {
+    if (!isFileDrag(e)) return;
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+  });
+  window.addEventListener('dragleave', e => {
+    if (!isFileDrag(e)) return;
+    fileDragDepth--;
+    if (fileDragDepth <= 0) {
+      fileDragDepth = 0;
+      highlightDropZones(false);
+    }
+  });
+  window.addEventListener('drop', async e => {
+    if (!isFileDrag(e)) return;
+    e.preventDefault();
+    fileDragDepth = 0;
+    highlightDropZones(false);
+    dbg('drop fired, files=' + (e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files.length : 'n/a') + ', items=' + (e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items.length : 'n/a'));
+    const files = await collectFilesFromDataTransfer(e.dataTransfer);
+    dbg('collected ' + files.length + ' files');
+    if (files.length > 0) {
+      addFilesAsProjects(files);
+    } else {
+      toast('No files detected. Try the "click to browse" option instead.', 'error');
+    }
+  });
+}
+
+function highlightDropZones(on) {
+  const dropArea = document.getElementById('inbox-droparea');
+  if (dropArea) dropArea.classList.toggle('dragging-over', on);
+}
+
+// Check whether a drag event contains files
+function isFileDrag(e) {
+  if (!e.dataTransfer) return false;
+  const types = e.dataTransfer.types;
+  if (!types) return false;
+  // types is DOMStringList in some browsers, Array in others
+  if (types.contains) return types.contains('Files');
+  for (let i = 0; i < types.length; i++) {
+    if (types[i] === 'Files' || types[i] === 'application/x-moz-file') return true;
+  }
+  return false;
+}
+
+/* ============================================================
+   PROJECT OPERATIONS
+   ============================================================ */
+function moveProject(id, newLocation) {
+  const p = STATE.projects.find(x => x.id === id);
+  if (!p) return;
+  if (p.location === newLocation) return;
+  // Enforce capacity on boxes (not inbox)
+  if (newLocation !== 'inbox') {
+    const targetCount = STATE.projects.filter(x => x.location === newLocation).length;
+    if (targetCount >= MAX_PER_BOX) {
+      const step = STATE.steps.find(s => s.id === newLocation);
+      toast(`"${step ? step.name : 'Box'}" is full (${MAX_PER_BOX} max)`, 'error');
+      return;
+    }
+  }
+  const fromLabel = locationLabel(p.location);
+  const toLabel = locationLabel(newLocation);
+  p.history = p.history || [];
+  p.history.push({ at: new Date().toISOString(), from: p.location, to: newLocation });
+  p.location = newLocation;
+  saveState();
+  renderBoard();
+  toast(`"${p.name}" → ${toLabel}`, 'success');
+}
+
+function removeProject(id) {
+  const p = STATE.projects.find(x => x.id === id);
+  if (!p) return;
+  if (!confirm(`Remove project "${p.name}"? This cannot be undone.`)) return;
+  STATE.projects = STATE.projects.filter(x => x.id !== id);
+  saveState();
+  renderBoard();
+  toast(`Removed "${p.name}"`, 'success');
+}
+
+function locationLabel(loc) {
+  if (loc === 'inbox') return 'Inbox';
+  const step = STATE.steps.find(s => s.id === loc);
+  return step ? step.name : '(removed step)';
+}
+
+/* ============================================================
+   FILE INTAKE
+   ============================================================ */
+function pickFiles() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.multiple = true;
+  input.addEventListener('change', () => {
+    addFilesAsProjects(Array.from(input.files));
+  });
+  input.click();
+}
+
+// Collect File objects from a DataTransfer at drop time.
+//
+// Strategy:
+//   1. Take a SYNCHRONOUS snapshot of every available source. DataTransferItems
+//      detach the moment the drop handler returns control to the browser, so
+//      anything that requires async access must capture references first.
+//   2. dt.files is the simplest, most reliable source — populated for every
+//      drop including folder drops (folder appears as a "file" with size 0).
+//   3. webkitGetAsEntry() is needed to detect folders and expand them
+//      recursively. We capture entries synchronously alongside plain Files.
+//   4. After awaits, prefer entry expansion (for folders) but fall back to
+//      the synchronously-captured plain Files if entry reading times out.
+async function collectFilesFromDataTransfer(dt) {
+  if (!dt) {
+    dbg('collect: dt is null');
+    return [];
+  }
+
+  // SYNCHRONOUS SNAPSHOT — must happen before any await
+  const snapshots = [];
+  // Capture from dt.items (gives us folder support via webkitGetAsEntry)
+  if (dt.items && dt.items.length) {
+    for (let i = 0; i < dt.items.length; i++) {
+      const item = dt.items[i];
+      if (item.kind !== 'file') continue;
+      const file = item.getAsFile ? item.getAsFile() : null;
+      const entry = item.webkitGetAsEntry ? item.webkitGetAsEntry() : null;
+      snapshots.push({ file, entry });
+    }
+  }
+  // Also capture dt.files as backup (a separate, stable FileList)
+  const dtFiles = dt.files ? Array.from(dt.files) : [];
+
+  dbg(`collect: items=${snapshots.length}, dt.files=${dtFiles.length}`);
+
+  // If we have ANY file info, work with it
+  if (snapshots.length === 0 && dtFiles.length === 0) {
+    return [];
+  }
+
+  // For each snapshot: if it's a folder entry, expand it. If it's a plain file,
+  // include directly. The plain `file` capture is our reliable fallback even
+  // when entry reading fails.
+  const allFiles = [];
+  const seen = new Set(); // dedupe by name+size+lastModified
+
+  const addFile = (file, path) => {
+    if (!file) return;
+    const sig = `${file.name}::${file.size}::${file.lastModified}`;
+    if (seen.has(sig)) return;
+    seen.add(sig);
+    if (path) file.__path = path;
+    allFiles.push(file);
+  };
+
+  // Process entries (handles folders). Each iteration is awaited.
+  for (const snap of snapshots) {
+    if (snap.entry && snap.entry.isDirectory) {
+      // Folder — recurse with timeout protection
+      try {
+        await Promise.race([
+          collectEntry(snap.entry, allFiles, '', seen),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+        ]);
+      } catch (e) {
+        dbg(`folder read failed: ${e.message} — using plain file fallback`);
+        if (snap.file) addFile(snap.file);
+      }
+    } else if (snap.entry && snap.entry.isFile) {
+      // Single file via entries API
+      try {
+        const file = await Promise.race([
+          new Promise((res, rej) => snap.entry.file(res, rej)),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('entry.file timeout')), 2000))
+        ]);
+        addFile(file);
+      } catch (e) {
+        dbg(`entry.file failed: ${e.message} — using plain file fallback`);
+        if (snap.file) addFile(snap.file);
+      }
+    } else if (snap.file) {
+      // No entry, but we have a direct File
+      addFile(snap.file);
+    }
+  }
+
+  // If snapshots didn't yield anything, use the dt.files fallback
+  if (allFiles.length === 0 && dtFiles.length > 0) {
+    dbg('using dt.files fallback');
+    for (const f of dtFiles) addFile(f);
+  }
+
+  return allFiles;
+}
+
+async function collectEntry(entry, out, prefix, seen) {
+  if (entry.isFile) {
+    const file = await new Promise((res, rej) => entry.file(res, rej));
+    const sig = `${file.name}::${file.size}::${file.lastModified}`;
+    if (seen.has(sig)) return;
+    seen.add(sig);
+    file.__path = prefix + file.name;
+    out.push(file);
+  } else if (entry.isDirectory) {
+    const reader = entry.createReader();
+    let batch;
+    do {
+      batch = await new Promise((res, rej) => reader.readEntries(res, rej));
+      for (const e of batch) {
+        await collectEntry(e, out, prefix + entry.name + '/', seen);
+      }
+    } while (batch.length > 0);
+  }
+}
+
+function addFilesAsProjects(files) {
+  if (!files || files.length === 0) return;
+  let added = 0;
+  let dupes = 0;
+  for (const f of files) {
+    // De-duplicate by name + size + lastModified — re-dropping the same file refreshes the timestamp
+    const sig = `${f.name}::${f.size}::${f.lastModified}`;
+    const existing = STATE.projects.find(p => p.__sig === sig);
+    if (existing) {
+      existing.lastSeenAt = new Date().toISOString();
+      dupes++;
+      continue;
+    }
+    STATE.projects.push({
+      id: 'p_' + uid(),
+      name: f.name,
+      size: f.size,
+      lastModified: f.lastModified,
+      __sig: sig,
+      addedAt: new Date().toISOString(),
+      lastSeenAt: new Date().toISOString(),
+      location: 'inbox',
+      notes: '',
+      history: [{ at: new Date().toISOString(), from: null, to: 'inbox', reason: 'added' }],
+    });
+    added++;
+  }
+  saveState();
+  renderBoard();
+  if (added && dupes) toast(`Added ${added} new, refreshed ${dupes} existing`, 'success');
+  else if (added) toast(`Added ${added} project${added === 1 ? '' : 's'}`, 'success');
+  else if (dupes) toast(`Refreshed ${dupes} existing project${dupes === 1 ? '' : 's'}`, 'success');
+}
+
+/* ============================================================
+   PROJECT DETAIL MODAL
+   ============================================================ */
+function openProjectDetail(id) {
+  const p = STATE.projects.find(x => x.id === id);
+  if (!p) return;
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+  backdrop.innerHTML = `
+    <div class="modal detail-modal">
+      <h3>${escapeHtml(p.name)}</h3>
+      <p style="margin-bottom:14px">Currently in <strong>${escapeHtml(locationLabel(p.location))}</strong></p>
+      <div class="detail-field">
+        <label>Project name</label>
+        <input id="dm-name" value="${escapeHtml(p.name)}" />
+      </div>
+      <div class="detail-field">
+        <label>Notes</label>
+        <textarea id="dm-notes" placeholder="Quotation reference, customer name, anything you need to remember…">${escapeHtml(p.notes || '')}</textarea>
+      </div>
+      <div class="detail-field">
+        <label>File details</label>
+        <div style="font-size:11.5px;color:var(--ink-3);font-family:'JetBrains Mono',monospace;line-height:1.6">
+          ${p.size ? `Size: ${fmtBytes(p.size)}<br>` : ''}
+          ${p.lastModified ? `Modified: ${fmtDate(new Date(p.lastModified).toISOString())}<br>` : ''}
+          Added: ${fmtDate(p.addedAt)}<br>
+          ${p.lastSeenAt && p.lastSeenAt !== p.addedAt ? `Last re-dropped: ${fmtDate(p.lastSeenAt)}` : ''}
+        </div>
+      </div>
+      ${p.history && p.history.length > 1 ? `
+        <div class="detail-history">
+          <label style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:8px">Movement history</label>
+          ${p.history.slice().reverse().map(h => `
+            <div class="history-row">
+              <span class="from-to">${escapeHtml(locationLabel(h.from || 'added'))} → ${escapeHtml(locationLabel(h.to))}</span>
+              <span>${fmtDate(h.at)}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      <div class="modal-actions" style="margin-top:20px">
+        <button class="btn" id="dm-cancel">Cancel</button>
+        <button class="btn btn-primary" id="dm-save">Save</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+  const close = () => backdrop.remove();
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) close(); });
+  document.getElementById('dm-cancel').addEventListener('click', close);
+  document.getElementById('dm-save').addEventListener('click', () => {
+    const name = document.getElementById('dm-name').value.trim();
+    const notes = document.getElementById('dm-notes').value;
+    if (!name) { toast('Name cannot be empty', 'error'); return; }
+    p.name = name;
+    p.notes = notes;
+    saveState();
+    close();
+    renderBoard();
+  });
+  // Focus name input
+  setTimeout(() => document.getElementById('dm-name').focus(), 30);
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+function confirmReset() {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+  backdrop.innerHTML = `
+    <div class="modal">
+      <h3>Clear everything?</h3>
+      <p>This removes all ${STATE.projects.length} project${STATE.projects.length === 1 ? '' : 's'} and resets the steps. It cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn" id="cancel-reset">Cancel</button>
+        <button class="btn btn-danger" id="confirm-reset">Yes, clear everything</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+  const close = () => backdrop.remove();
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) close(); });
+  document.getElementById('cancel-reset').addEventListener('click', close);
+  document.getElementById('confirm-reset').addEventListener('click', () => {
+    STATE = { ...DEFAULT_STATE };
+    saveState();
+    close();
+    renderSetup();
+    toast('Board cleared', 'success');
+  });
+}
+
+/* ============================================================
+   DEBUG PANEL — visible diagnostics for drag-and-drop events.
+   Toggle with Ctrl/Cmd+Shift+D, or by clicking the small status
+   dot in the top-left corner of the brand.
+   ============================================================ */
+let DEBUG_VISIBLE = false;
+let dbgPanel = null;
+function setupDebugPanel() {
+  dbgPanel = document.createElement('div');
+  dbgPanel.id = 'debug-panel';
+  dbgPanel.innerHTML = `
+    <div class="debug-head">
+      <span>Event log</span>
+      <button id="debug-clear" title="Clear">⟲</button>
+      <button id="debug-close" title="Close">×</button>
+    </div>
+    <div class="debug-body" id="debug-body"></div>
+    <div class="debug-foot">Press Ctrl/Cmd+Shift+D to toggle</div>
+  `;
+  document.body.appendChild(dbgPanel);
+  document.getElementById('debug-clear').onclick = () => {
+    document.getElementById('debug-body').innerHTML = '';
+  };
+  document.getElementById('debug-close').onclick = () => toggleDebug(false);
+  window.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+      e.preventDefault();
+      toggleDebug(!DEBUG_VISIBLE);
+    }
+  });
+  // Also wire the brand dot
+  setTimeout(() => {
+    const dot = document.querySelector('.brand-dot');
+    if (dot) {
+      dot.style.cursor = 'pointer';
+      dot.title = 'Click to toggle event log (or Ctrl+Shift+D)';
+      dot.addEventListener('click', () => toggleDebug(!DEBUG_VISIBLE));
+    }
+  }, 0);
+}
+function toggleDebug(show) {
+  DEBUG_VISIBLE = show;
+  dbgPanel.classList.toggle('visible', show);
+}
+function dbg(msg) {
+  const body = document.getElementById('debug-body');
+  if (!body) return;
+  const time = new Date().toTimeString().slice(0, 8);
+  const line = document.createElement('div');
+  line.textContent = `[${time}] ${msg}`;
+  body.appendChild(line);
+  body.scrollTop = body.scrollHeight;
+  // Keep only the last 80 lines
+  while (body.children.length > 80) body.removeChild(body.firstChild);
+}
+
+/* ============================================================
+   INIT — must come last so all let-declared variables are alive
+   ============================================================ */
+setupDebugPanel();
+setupFileDropOverlay();
+
+if (STATE.setupDone && STATE.steps.length > 0) {
+  renderBoard();
+} else {
+  renderSetup();
+}
+</script>
+</body>
+</html>
